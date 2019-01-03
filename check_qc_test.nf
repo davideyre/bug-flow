@@ -10,18 +10,23 @@
  ***/
 
 /* parameters */
-params.dataPath = "/Users/davideyre/Drive/academic/infrastructure/nextflow/pipeline-test/example_data"
+params.dataPath = "example_data"
+params.outputPath = "example_output"
 
 /* initial logging */
 log.info "Pipeline Test -- version 0.1"
 log.info "Data path               : ${params.dataPath}"
+log.info "Output path               : ${params.outputPath}"
 
 /* input validation */
 dataPath = file(params.dataPath)
+outputPath = file(params.outputPath)
 fastq_file_location = file("$dataPath/IR72_1.fastq.gz")
 
 /* fastQC */
 process fastQC {
+
+	publishDir outputPath, mode: 'copy'
 	
 	input:
 	    file fastq_file from fastq_file_location
@@ -36,12 +41,3 @@ process fastQC {
 
 }
 
-/* save stdout from fastQC */
-fastQC_stdout.subscribe { 
-	it.copyTo(dataPath)
-}
-
-/* copy fastQC output files back to main directory */
-fastQC_outputFiles
-	.flatMap()
-	.subscribe { it.copyTo(dataPath) }
