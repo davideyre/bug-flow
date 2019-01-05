@@ -6,7 +6,10 @@
 
 /*** TO DO
  - allow multiple input files to be read
- - add ps, date, sed, grep, egrep, awk to docker image
+ - add bbduk for adapter trimming (+/- quality trimming)
+ - add kmergenie for velvet kmer finder
+ - add commands to run vanilla velvet (with kmer size), spades, unicycler+spades
+ - generate guids, log of these, and output file structure
  ***/
 
 /* parameters */
@@ -16,7 +19,7 @@ params.outputPath = "example_output"
 /* initial logging */
 log.info "Pipeline Test -- version 0.1"
 log.info "Data path               : ${params.dataPath}"
-log.info "Output path               : ${params.outputPath}"
+log.info "Output path             : ${params.outputPath}"
 
 /* input validation */
 dataPath = file(params.dataPath)
@@ -32,12 +35,26 @@ process fastQC {
 	    file fastq_file from fastq_file_location
 	
 	output:
-		file "log.txt" into fastQC_stdout
-		file "*fastqc.*" into fastQC_outputFiles
+		file "log.txt" 
+		file "*fastqc.*" 
 	
 	"""
 	fastqc $fastq_file  > log.txt
 	"""
 
 }
+
+/*
+process kmerGenie { 
+	
+
+	'''
+	source activate py27
+	kmergenie
+	source deactivate
+	'''
+
+}
+
+*/
 

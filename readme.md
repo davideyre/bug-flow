@@ -36,3 +36,12 @@ docker image rm davideyre:pipeline-test
 
 ### run the command
 nextflow run check_qc_test.nf -with-report
+
+### clean up
+once has run, provided the files of interest are published with the copy option set, can then delete the work directory, this could be done on an automated basis, e.g. for files >1 week old in a production environment
+
+## Resources
+
+### Example docker files
+https://hub.docker.com/r/biocontainers/bwa/dockerfile
+https://hub.docker.com/r/biocontainers/biocontainers/dockerfile
