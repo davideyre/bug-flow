@@ -21,6 +21,8 @@ def getShortId( str ) {
 params.index = "example_data/file_list.csv"
 params.outputPath = "example_output"
 
+params.bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa"
+
 /* initial logging */
 log.info "Pipeline Test -- version 0.1"
 log.info "Input file              : ${params.index}"
@@ -51,8 +53,9 @@ process fastQC {
     	set sampleid, uuid, file(fq1), file(fq2) from samples_ch
 	
 	output:
-		set file("${uuid}_fastqc_log.txt"), val(uuid) into log_ch
+		file "${uuid}_fastqc_log.txt" 
 		file "*fastqc.*"
+		set uuid, file(fq1), file(fq2) into fastqc_out_ch
 	
 	//tag each process with the guid
 	tag "${getShortId(uuid)}"
@@ -66,29 +69,43 @@ process fastQC {
 	
 }
 
-process followUp {
-	echo true
+process bbDuk {
+	
+	publishDir "$outputPath/$uuid/clean_fastq", mode: 'copy'
+	
 	input:
-		set file("${uuid}_fastqc_log.txt"), val(uuid) from log_ch
+		set uuid, file(fq1), file(fq2) from fastqc_out_ch
+	
+	output:
+		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") into bbduk_out_ch
 	
 	tag "${getShortId(uuid)}"
 	
 	"""
-	cat ${uuid}_fastqc_log.txt
+	bbduk.sh in1=$fq1 in2=$fq2 out1=${uuid}_clean.1.fq out2=${uuid}_clean.2.fq \
+				ref=$params.bbduk_adapaters ktrim=r k=23 mink=11 hdist=1 tpe tbo
+	gzip ${uuid}_clean.1.fq ${uuid}_clean.2.fq
 	"""
 }
 
-/*
-process kmerGenie { 
+process kmerGenie {
 	
-
-	'''
-	source activate py27
-	kmergenie
-	source deactivate
-	'''
-
+	publishDir "$outputPath/$uuid/kmer_genie", mode: 'copy'
+	
+	echo true
+	
+	tag "${getShortId(uuid)}"
+	
+	input:
+		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch
+	
+	output:
+		file "kmergenie.log"
+	
+	"""
+	ls -1 *.fq.gz > list_files
+    kmergenie list_files -k 191 > kmergenie.log
+	"""
+	
 }
-
-*/
 
