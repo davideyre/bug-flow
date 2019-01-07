@@ -18,11 +18,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Nextflow workflow report for run id [shrivelled_caravaggio]">
+  <meta name="description" content="Nextflow workflow report for run id [crazy_newton]">
   <meta name="author" content="Paolo Di Tommaso, Phil Ewels">
   <link rel="icon" type="image/png" href="https://www.nextflow.io/img/favicon.png" />
 
-  <title>[shrivelled_caravaggio] Nextflow Workflow Report</title>
+  <title>[crazy_newton] Nextflow Workflow Report</title>
 
   <style type="text/css">
   /*!
@@ -137,7 +137,7 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
         <li class="nav-item"><a class="nav-link" href="#tasks">Tasks</a></li>
       </ul>
       <span class="navbar-text">
-        [shrivelled_caravaggio]
+        [crazy_newton]
       </span>
     </div>
   </nav>
@@ -146,54 +146,27 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
     <div class="container">
 
       <h1 class="display-3">Nextflow workflow report</h1>
-      <h2 class="text-muted mb-4"><samp>[shrivelled_caravaggio]</samp> </h2>
+      <h2 class="text-muted mb-4"><samp>[crazy_newton]</samp> </h2>
 
       
-          <div class="alert alert-danger mb-4">
-              <h4>Workflow execution completed unsuccessfully!</h4>
-              <p>The exit status of the task that caused the workflow execution to fail was: <code>1</code>.</p>
-              <p>The full error message was:</p>
-              <pre>Error executing process > 'fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)'
-
-Caused by:
-  Process `fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)` terminated with an error exit status (1)
-
-Command executed:
-
-  zcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq
-  fastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq > log.txt
-  rm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq
-
-Command exit status:
-  1
-
-Command output:
-  (empty)
-
-Command error:
-  Error: LinkageError occurred while loading main class uk.ac.babraham.FastQC.FastQCApplication
-  	java.lang.ExceptionInInitializerError: null
-
-Work dir:
-  /Users/davideyre/Drive/academic/infrastructure/nextflow/pipeline-test/work/0e/53e93a31413bb3e236b137309ee1ae
-
-Tip: when you have fixed the problem you can continue the execution appending to the nextflow command line the option `-resume`</pre>
+          <div class="alert alert-warning mb-4">
+              Workflow execution completed successfully. One or more tasks reported an error condition.
           </div>
       
 
       <dl>
         <dt>Run times</dt>
         <dd>
-          <span id="workflow_start">Mon Jan 07 06:38:51 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 06:39:14 GMT 2019</span>
-          (<span id="completed_fromnow"></span>duration: <strong>22.8s</strong>)
+          <span id="workflow_start">Mon Jan 07 17:28:16 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 17:28:56 GMT 2019</span>
+          (<span id="completed_fromnow"></span>duration: <strong>40s</strong>)
         </dd>
 
         <dl>
           <div class="progress" style="height: 1.6rem; margin: 1.2rem auto; border-radius: 0.20rem;">
-            <div style="width: 0.0%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="0 tasks succeeded"><span class="text-truncate">&nbsp; 0 succeeded &nbsp;</span></div>
+            <div style="width: 66.67%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="2 tasks succeeded"><span class="text-truncate">&nbsp; 2 succeeded &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-secondary" data-toggle="tooltip" data-placement="top" title="0 tasks were cached"><span class="text-truncate">&nbsp; 0 cached &nbsp;</span></div>
-            <div style="width: 0.0%" class="progress-bar bg-warning" data-toggle="tooltip" data-placement="top" title="0 tasks reported and error and were ignored"><span class="text-truncate">&nbsp; 0 ignored &nbsp;</span></div>
-            <div style="width: 100.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="1 tasks failed"><span class="text-truncate">&nbsp; 1 failed &nbsp;</span></div>
+            <div style="width: 33.33%" class="progress-bar bg-warning" data-toggle="tooltip" data-placement="top" title="1 tasks reported and error and were ignored"><span class="text-truncate">&nbsp; 1 ignored &nbsp;</span></div>
+            <div style="width: 0.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="0 tasks failed"><span class="text-truncate">&nbsp; 0 failed &nbsp;</span></div>
           </div>
         </dl>
 
@@ -221,11 +194,11 @@ Tip: when you have fixed the problem you can continue the execution appending to
 
         
           <dt class="col-sm-3">Script ID</dt>
-          <dd class="col-sm-9"><code>6866b08d512e74d1ebb9ac427134f94e</code></dd>
+          <dd class="col-sm-9"><code>d8699fff24e39f1a8a0ccafef8c2b55c</code></dd>
         
 
         <dt class="col-sm-3">Workflow session</dt>
-        <dd class="col-sm-9"><code>d07935ca-8bb7-46f8-8c95-fb6faacf60d1</code></dd>
+        <dd class="col-sm-9"><code>580abb8a-857a-43fe-b12a-20795b2b9d5d</code></dd>
 
         
 
@@ -1013,7 +986,7 @@ $(function() {
 
   // Nextflow report data
   window.data = { "trace":[
-{"task_id":"1","hash":"0e\/53e93a","native_id":"25143","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"FAILED","exit":"1","submit":"1546843132522","start":"1546843132636","complete":"1546843154610","duration":"22088","realtime":"16108","%cpu":"55.2","%mem":"0.2","rss":"3969024","vmem":"24879104","peak_rss":"3969024","peak_vmem":"24879104","rchar":"280522958","wchar":"767902725","syscr":"8592","syscw":"23613","read_bytes":"280788992","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/0e\/53e93a31413bb3e236b137309ee1ae","script":"\n\tzcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq > log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"TERMINATE"}], "summary":{"fastQC":{"cpu":{"mean":55.2,"min":55.2,"q1":55.2,"q2":55.2,"q3":55.2,"max":55.2,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"mem":{"mean":24879104,"min":24879104,"q1":24879104,"q2":24879104,"q3":24879104,"max":24879104,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"time":{"mean":16108,"min":16108,"q1":16108,"q2":16108,"q3":16108,"max":16108,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"reads":{"mean":280788992,"min":280788992,"q1":280788992,"q2":280788992,"q3":280788992,"max":280788992,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"writes":null,"cpuUsage":{"mean":55.2,"min":55.2,"q1":55.2,"q2":55.2,"q3":55.2,"max":55.2,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"memUsage":null,"timeUsage":null}} };
+{"task_id":"2","hash":"3f\/910720","native_id":"31424","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"71B069B3-970F-427C-AAAB-6AC5B97CED33","name":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","status":"FAILED","exit":"1","submit":"1546882096725","start":"1546882096831","complete":"1546882104096","duration":"7371","realtime":"1249","%cpu":"25.5","%mem":"0.2","rss":"3928064","vmem":"26415104","peak_rss":"3928064","peak_vmem":"26415104","rchar":"41035269","wchar":"40894464","syscr":"335","syscw":"312","read_bytes":"41422848","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/3f\/910720da1f62672494547ad73a4196","script":"\n\tcat GK124_1.fastq.gz GK124_2.fastq.gzz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\tfastqc 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_fastqc_log.txt\n\trm 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"IGNORE"},{"task_id":"1","hash":"8e\/75c825","native_id":"31425","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546882096738","start":"1546882096834","complete":"1546882134278","duration":"37540","realtime":"32972","%cpu":"91.0","%mem":"14.4","rss":"302714880","vmem":"3174408192","peak_rss":"302714880","peak_vmem":"3237322752","rchar":"585392683","wchar":"288490241","syscr":"572375","syscw":"3028","read_bytes":"576921600","write_bytes":"122880","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/8e\/75c82564ff4ca9cc0783ff89b04c72","script":"\n\tcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_fastqc_log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"3","hash":"15\/debe6a","native_id":"31474","process":"followUp","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546882134314","start":"1546882134384","complete":"1546882136042","duration":"1728","realtime":"15","%cpu":"0.0","%mem":"0.0","rss":"0","vmem":"0","peak_rss":"0","peak_vmem":"0","rchar":"0","wchar":"0","syscr":"0","syscw":"0","read_bytes":"0","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/15\/debe6a165bb6687bf86bdd2f1f57ce","script":"\n\tcat 63BA0270-000A-45D7-A1A1-A4B88AB6C107_fastqc_log.txt\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"followUp":{"cpu":null,"mem":null,"time":{"mean":15,"min":15,"q1":15,"q2":15,"q3":15,"max":15,"minLabel":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"reads":null,"writes":null,"cpuUsage":null,"memUsage":null,"timeUsage":null},"fastQC":{"cpu":{"mean":58.25,"min":25.5,"q1":41.88,"q2":58.25,"q3":74.63,"max":91,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"mem":{"mean":1600411648,"min":26415104,"q1":813413376,"q2":1600411648,"q3":2387409920,"max":3174408192,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"time":{"mean":17110.5,"min":1249,"q1":9179.75,"q2":17110.5,"q3":25041.25,"max":32972,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"reads":{"mean":309172224,"min":41422848,"q1":175297536,"q2":309172224,"q3":443046912,"max":576921600,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"writes":{"mean":61440,"min":0,"q1":30720,"q2":61440,"q3":92160,"max":122880,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"cpuUsage":{"mean":58.25,"min":25.5,"q1":41.88,"q2":58.25,"q3":74.63,"max":91,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"memUsage":null,"timeUsage":null}} };
 
   </script>
 

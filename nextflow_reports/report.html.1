@@ -18,11 +18,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Nextflow workflow report for run id [ridiculous_mcnulty]">
+  <meta name="description" content="Nextflow workflow report for run id [stoic_allen]">
   <meta name="author" content="Paolo Di Tommaso, Phil Ewels">
   <link rel="icon" type="image/png" href="https://www.nextflow.io/img/favicon.png" />
 
-  <title>[ridiculous_mcnulty] Nextflow Workflow Report</title>
+  <title>[stoic_allen] Nextflow Workflow Report</title>
 
   <style type="text/css">
   /*!
@@ -137,7 +137,7 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
         <li class="nav-item"><a class="nav-link" href="#tasks">Tasks</a></li>
       </ul>
       <span class="navbar-text">
-        [ridiculous_mcnulty]
+        [stoic_allen]
       </span>
     </div>
   </nav>
@@ -146,56 +146,22 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
     <div class="container">
 
       <h1 class="display-3">Nextflow workflow report</h1>
-      <h2 class="text-muted mb-4"><samp>[ridiculous_mcnulty]</samp> </h2>
+      <h2 class="text-muted mb-4"><samp>[stoic_allen]</samp> </h2>
 
       
           <div class="alert alert-danger mb-4">
               <h4>Workflow execution completed unsuccessfully!</h4>
-              <p>The exit status of the task that caused the workflow execution to fail was: <code>1</code>.</p>
+              <p>The exit status of the task that caused the workflow execution to fail was: <code>null</code>.</p>
               <p>The full error message was:</p>
-              <pre>Error executing process > 'fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)'
-
-Caused by:
-  Process `fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)` terminated with an error exit status (1)
-
-Command executed:
-
-  zcat GK124_1.fastq.gz GK124_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz
-  fastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz > log.txt
-  rm 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz
-
-Command exit status:
-  1
-
-Command output:
-  (empty)
-
-Command error:
-  Failed to process 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz
-  java.util.zip.ZipException: Not in GZIP format
-  	at java.base/java.util.zip.GZIPInputStream.readHeader(GZIPInputStream.java:166)
-  	at java.base/java.util.zip.GZIPInputStream.<init>(GZIPInputStream.java:80)
-  	at java.base/java.util.zip.GZIPInputStream.<init>(GZIPInputStream.java:92)
-  	at uk.ac.babraham.FastQC.Utilities.MultiMemberGZIPInputStream.<init>(MultiMemberGZIPInputStream.java:37)
-  	at uk.ac.babraham.FastQC.Sequence.FastQFile.<init>(FastQFile.java:80)
-  	at uk.ac.babraham.FastQC.Sequence.SequenceFactory.getSequenceFile(SequenceFactory.java:106)
-  	at uk.ac.babraham.FastQC.Sequence.SequenceFactory.getSequenceFile(SequenceFactory.java:62)
-  	at uk.ac.babraham.FastQC.Analysis.OfflineRunner.processFile(OfflineRunner.java:152)
-  	at uk.ac.babraham.FastQC.Analysis.OfflineRunner.<init>(OfflineRunner.java:121)
-  	at uk.ac.babraham.FastQC.FastQCApplication.main(FastQCApplication.java:316)
-
-Work dir:
-  /Users/davideyre/Drive/academic/infrastructure/nextflow/pipeline-test/work/ef/d6b76bb45b3d791caac8b7cd1d0730
-
-Tip: when you have fixed the problem you can continue the execution appending to the nextflow command line the option `-resume`</pre>
+              <pre>SIGINT</pre>
           </div>
       
 
       <dl>
         <dt>Run times</dt>
         <dd>
-          <span id="workflow_start">Mon Jan 07 06:46:21 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 06:46:44 GMT 2019</span>
-          (<span id="completed_fromnow"></span>duration: <strong>22.8s</strong>)
+          <span id="workflow_start">Mon Jan 07 17:37:27 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 17:37:30 GMT 2019</span>
+          (<span id="completed_fromnow"></span>duration: <strong>2.8s</strong>)
         </dd>
 
         <dl>
@@ -231,11 +197,11 @@ Tip: when you have fixed the problem you can continue the execution appending to
 
         
           <dt class="col-sm-3">Script ID</dt>
-          <dd class="col-sm-9"><code>471a9862b0fd9771776330f3687ad7ab</code></dd>
+          <dd class="col-sm-9"><code>fb3a02616701a9bdcb6976a14aab5e95</code></dd>
         
 
         <dt class="col-sm-3">Workflow session</dt>
-        <dd class="col-sm-9"><code>e26f0116-effb-40d5-9a5e-55721e4748f3</code></dd>
+        <dd class="col-sm-9"><code>6501eb13-cc1c-4465-bb99-664806744891</code></dd>
 
         
 
@@ -1023,7 +989,7 @@ $(function() {
 
   // Nextflow report data
   window.data = { "trace":[
-{"task_id":"2","hash":"ef\/d6b76b","native_id":"25413","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C108","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","status":"FAILED","exit":"1","submit":"1546843582174","start":"1546843582276","complete":"1546843604388","duration":"22214","realtime":"18214","%cpu":"60.8","%mem":"0.2","rss":"3989504","vmem":"24879104","peak_rss":"3989504","peak_vmem":"24879104","rchar":"247589057","wchar":"704142842","syscr":"7587","syscw":"21650","read_bytes":"247848960","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/ef\/d6b76bb45b3d791caac8b7cd1d0730","script":"\n\tzcat GK124_1.fastq.gz GK124_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz > log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C108_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"TERMINATE"},{"task_id":"1","hash":"73\/e21325","native_id":"25418","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"ABORTED","exit":"-","submit":"1546843582190","start":"1546843582280","complete":"-","duration":"-","realtime":"-","%cpu":"-","%mem":"-","rss":"-","vmem":"-","peak_rss":"-","peak_vmem":"-","rchar":"-","wchar":"-","syscr":"-","syscw":"-","read_bytes":"-","write_bytes":"-","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/73\/e213259aae86dc5308674ab28b5f33","script":"\n\tzcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"fastQC":{"cpu":{"mean":60.8,"min":60.8,"q1":60.8,"q2":60.8,"q3":60.8,"max":60.8,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"mem":{"mean":24879104,"min":24879104,"q1":24879104,"q2":24879104,"q3":24879104,"max":24879104,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"time":{"mean":18214,"min":18214,"q1":18214,"q2":18214,"q3":18214,"max":18214,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"reads":{"mean":247848960,"min":247848960,"q1":247848960,"q2":247848960,"q3":247848960,"max":247848960,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"writes":null,"cpuUsage":{"mean":60.8,"min":60.8,"q1":60.8,"q2":60.8,"q3":60.8,"max":60.8,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"memUsage":null,"timeUsage":null}} };
+{"task_id":"1","hash":"4f\/9d878f","native_id":"31793","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (-000A-45D7-A1A1-A4B88AB6C107)","status":"ABORTED","exit":"-","submit":"1546882648167","start":"1546882648256","complete":"-","duration":"-","realtime":"-","%cpu":"-","%mem":"-","rss":"-","vmem":"-","peak_rss":"-","peak_vmem":"-","rchar":"-","wchar":"-","syscr":"-","syscw":"-","read_bytes":"-","write_bytes":"-","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/4f\/9d878fea29f64314a2a5c91236c98f","script":"\n\tcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_fastqc_log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"2","hash":"1c\/6ac4f1","native_id":"31798","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"-970F-427C-AAAB-6AC5B97CED33","name":"fastQC (-970F-427C-AAAB-6AC5B97CED33)","status":"ABORTED","exit":"-","submit":"1546882648184","start":"1546882648260","complete":"-","duration":"-","realtime":"-","%cpu":"-","%mem":"-","rss":"-","vmem":"-","peak_rss":"-","peak_vmem":"-","rchar":"-","wchar":"-","syscr":"-","syscw":"-","read_bytes":"-","write_bytes":"-","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/1c\/6ac4f1b684a647f4ab8184cb4e5028","script":"\n\tcat GK124_1.fastq.gz GK124_2.fastq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\tfastqc 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_fastqc_log.txt\n\trm 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"fastQC":{"cpu":null,"mem":null,"time":null,"reads":null,"writes":null,"cpuUsage":null,"memUsage":null,"timeUsage":null}} };
 
   </script>
 

@@ -45,3 +45,7 @@ once has run, provided the files of interest are published with the copy option 
 ### Example docker files
 https://hub.docker.com/r/biocontainers/bwa/dockerfile
 https://hub.docker.com/r/biocontainers/biocontainers/dockerfile
+
+## Notes
+
+If a container is run and then accessed and fastQC is run, this may cause it to fail when run from the nextflow workflow. To solve this stop the container and run docker container purge

@@ -18,11 +18,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Nextflow workflow report for run id [shrivelled_dijkstra]">
+  <meta name="description" content="Nextflow workflow report for run id [friendly_sinoussi]">
   <meta name="author" content="Paolo Di Tommaso, Phil Ewels">
   <link rel="icon" type="image/png" href="https://www.nextflow.io/img/favicon.png" />
 
-  <title>[shrivelled_dijkstra] Nextflow Workflow Report</title>
+  <title>[friendly_sinoussi] Nextflow Workflow Report</title>
 
   <style type="text/css">
   /*!
@@ -137,7 +137,7 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
         <li class="nav-item"><a class="nav-link" href="#tasks">Tasks</a></li>
       </ul>
       <span class="navbar-text">
-        [shrivelled_dijkstra]
+        [friendly_sinoussi]
       </span>
     </div>
   </nav>
@@ -146,52 +146,27 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
     <div class="container">
 
       <h1 class="display-3">Nextflow workflow report</h1>
-      <h2 class="text-muted mb-4"><samp>[shrivelled_dijkstra]</samp> </h2>
+      <h2 class="text-muted mb-4"><samp>[friendly_sinoussi]</samp> </h2>
 
       
-          <div class="alert alert-danger mb-4">
-              <h4>Workflow execution completed unsuccessfully!</h4>
-              <p>The exit status of the task that caused the workflow execution to fail was: <code>1</code>.</p>
-              <p>The full error message was:</p>
-              <pre>Error executing process > 'fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)'
-
-Caused by:
-  Process `fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)` terminated with an error exit status (1)
-
-Command executed:
-
-  fastqc GK124_1.fastq.gz > log.txt
-
-Command exit status:
-  1
-
-Command output:
-  (empty)
-
-Command error:
-  Error: LinkageError occurred while loading main class uk.ac.babraham.FastQC.FastQCApplication
-  	java.lang.ExceptionInInitializerError: null
-
-Work dir:
-  /Users/davideyre/Drive/academic/infrastructure/nextflow/pipeline-test/work/a1/1d62e5fd1801939b24a8586cef5d8b
-
-Tip: view the complete command output by changing to the process work dir and entering the command `cat .command.out`</pre>
+          <div class="alert alert-success mb-4">
+              Workflow execution completed successfully!
           </div>
       
 
       <dl>
         <dt>Run times</dt>
         <dd>
-          <span id="workflow_start">Mon Jan 07 06:40:11 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 06:40:13 GMT 2019</span>
-          (<span id="completed_fromnow"></span>duration: <strong>2.5s</strong>)
+          <span id="workflow_start">Mon Jan 07 17:32:04 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 17:32:49 GMT 2019</span>
+          (<span id="completed_fromnow"></span>duration: <strong>45.6s</strong>)
         </dd>
 
         <dl>
           <div class="progress" style="height: 1.6rem; margin: 1.2rem auto; border-radius: 0.20rem;">
-            <div style="width: 0.0%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="0 tasks succeeded"><span class="text-truncate">&nbsp; 0 succeeded &nbsp;</span></div>
+            <div style="width: 100.0%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="4 tasks succeeded"><span class="text-truncate">&nbsp; 4 succeeded &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-secondary" data-toggle="tooltip" data-placement="top" title="0 tasks were cached"><span class="text-truncate">&nbsp; 0 cached &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-warning" data-toggle="tooltip" data-placement="top" title="0 tasks reported and error and were ignored"><span class="text-truncate">&nbsp; 0 ignored &nbsp;</span></div>
-            <div style="width: 100.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="2 tasks failed"><span class="text-truncate">&nbsp; 2 failed &nbsp;</span></div>
+            <div style="width: 0.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="0 tasks failed"><span class="text-truncate">&nbsp; 0 failed &nbsp;</span></div>
           </div>
         </dl>
 
@@ -219,11 +194,11 @@ Tip: view the complete command output by changing to the process work dir and en
 
         
           <dt class="col-sm-3">Script ID</dt>
-          <dd class="col-sm-9"><code>6198527e964367f840e0c4e1724b9bd6</code></dd>
+          <dd class="col-sm-9"><code>14ca97b44662b77ac12f6fb2c29abedc</code></dd>
         
 
         <dt class="col-sm-3">Workflow session</dt>
-        <dd class="col-sm-9"><code>a8bc136e-49a5-40a8-843d-9527469a4d5c</code></dd>
+        <dd class="col-sm-9"><code>0235a7cc-3906-4d0f-9211-9a629b6c7a40</code></dd>
 
         
 
@@ -1011,7 +986,7 @@ $(function() {
 
   // Nextflow report data
   window.data = { "trace":[
-{"task_id":"2","hash":"a1\/1d62e5","native_id":"25207","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C108","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","status":"FAILED","exit":"1","submit":"1546843211485","start":"1546843211507","complete":"1546843213394","duration":"1909","realtime":"269","%cpu":"156.8","%mem":"1.7","rss":"34705408","vmem":"2956042240","peak_rss":"3628541952","peak_vmem":"20185088","rchar":"7684","wchar":"759","syscr":"26","syscw":"0","read_bytes":"36864","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/a1\/1d62e5fd1801939b24a8586cef5d8b","script":"fastqc GK124_1.fastq.gz > log.txt","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"TERMINATE"},{"task_id":"1","hash":"00\/89ef9f","native_id":"25212","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"ABORTED","exit":"-","submit":"1546843211499","start":"1546843211512","complete":"-","duration":"-","realtime":"-","%cpu":"-","%mem":"-","rss":"-","vmem":"-","peak_rss":"-","peak_vmem":"-","rchar":"-","wchar":"-","syscr":"-","syscw":"-","read_bytes":"-","write_bytes":"-","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/00\/89ef9fc06037c8221844eedfe7325a","script":"fastqc IR72_1.fastq.gz > log.txt","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"fastQC":{"cpu":{"mean":156.8,"min":156.8,"q1":156.8,"q2":156.8,"q3":156.8,"max":156.8,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"mem":{"mean":2956042240,"min":2956042240,"q1":2956042240,"q2":2956042240,"q3":2956042240,"max":2956042240,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"time":{"mean":269,"min":269,"q1":269,"q2":269,"q3":269,"max":269,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"reads":{"mean":36864,"min":36864,"q1":36864,"q2":36864,"q3":36864,"max":36864,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"writes":null,"cpuUsage":{"mean":156.8,"min":156.8,"q1":156.8,"q2":156.8,"q3":156.8,"max":156.8,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"memUsage":null,"timeUsage":null}} };
+{"task_id":"1","hash":"8b\/37afcf","native_id":"31541","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546882324989","start":"1546882325094","complete":"1546882367811","duration":"42822","realtime":"39720","%cpu":"94.7","%mem":"14.6","rss":"305168384","vmem":"3174408192","peak_rss":"305438720","peak_vmem":"3175407616","rchar":"585392519","wchar":"288490241","syscr":"572355","syscw":"3028","read_bytes":"576921600","write_bytes":"122880","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/8b\/37afcfc2e260a449cb78a9ec50c047","script":"\n\tcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_fastqc_log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"2","hash":"95\/e3b797","native_id":"31546","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"71B069B3-970F-427C-AAAB-6AC5B97CED33","name":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","status":"COMPLETED","exit":"0","submit":"1546882325002","start":"1546882325100","complete":"1546882367941","duration":"42939","realtime":"39665","%cpu":"95.1","%mem":"14.7","rss":"306524160","vmem":"3174408192","peak_rss":"306524160","peak_vmem":"3175464960","rchar":"569126909","wchar":"280028133","syscr":"556145","syscw":"3257","read_bytes":"559964160","write_bytes":"163840","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/95\/e3b797a867e9f7645e0d49d53736e6","script":"\n\tcat GK124_1.fastq.gz GK124_2.fastq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\tfastqc 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_fastqc_log.txt\n\trm 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"3","hash":"32\/8f5a57","native_id":"31590","process":"followUp","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546882367855","start":"1546882367918","complete":"1546882369863","duration":"2008","realtime":"17","%cpu":"0.0","%mem":"0.0","rss":"0","vmem":"0","peak_rss":"0","peak_vmem":"0","rchar":"0","wchar":"0","syscr":"0","syscw":"0","read_bytes":"0","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/32\/8f5a5796e3118920760a56c4973a28","script":"\n\tcat 63BA0270-000A-45D7-A1A1-A4B88AB6C107_fastqc_log.txt\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"4","hash":"5b\/fcfdbb","native_id":"31612","process":"followUp","module":"-","container":"davideyre:pipeline-test","tag":"71B069B3-970F-427C-AAAB-6AC5B97CED33","name":"followUp (71B069B3-970F-427C-AAAB-6AC5B97CED33)","status":"COMPLETED","exit":"0","submit":"1546882367955","start":"1546882368042","complete":"1546882369972","duration":"2017","realtime":"17","%cpu":"0.0","%mem":"0.0","rss":"0","vmem":"0","peak_rss":"0","peak_vmem":"0","rchar":"0","wchar":"0","syscr":"0","syscw":"0","read_bytes":"0","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/5b\/fcfdbb5d5e80e0df38fd9e9227a90a","script":"\n\tcat 71B069B3-970F-427C-AAAB-6AC5B97CED33_fastqc_log.txt\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"followUp":{"cpu":null,"mem":null,"time":{"mean":17,"min":17,"q1":17,"q2":17,"q3":17,"max":17,"minLabel":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"followUp (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q1Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"reads":null,"writes":null,"cpuUsage":null,"memUsage":null,"timeUsage":null},"fastQC":{"cpu":{"mean":94.9,"min":94.7,"q1":94.8,"q2":94.9,"q3":95,"max":95.1,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"mem":{"mean":3174408192,"min":3174408192,"q1":3174408192,"q2":3174408192,"q3":3174408192,"max":3174408192,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"time":{"mean":39692.5,"min":39665,"q1":39678.75,"q2":39692.5,"q3":39706.25,"max":39720,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"reads":{"mean":568442880,"min":559964160,"q1":564203520,"q2":568442880,"q3":572682240,"max":576921600,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"writes":{"mean":143360,"min":122880,"q1":133120,"q2":143360,"q3":153600,"max":163840,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"cpuUsage":{"mean":94.9,"min":94.7,"q1":94.8,"q2":94.9,"q3":95,"max":95.1,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"memUsage":null,"timeUsage":null}} };
 
   </script>
 

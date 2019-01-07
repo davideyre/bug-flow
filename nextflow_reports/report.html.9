@@ -18,11 +18,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Nextflow workflow report for run id [tiny_monod]">
+  <meta name="description" content="Nextflow workflow report for run id [fabulous_crick]">
   <meta name="author" content="Paolo Di Tommaso, Phil Ewels">
   <link rel="icon" type="image/png" href="https://www.nextflow.io/img/favicon.png" />
 
-  <title>[tiny_monod] Nextflow Workflow Report</title>
+  <title>[fabulous_crick] Nextflow Workflow Report</title>
 
   <style type="text/css">
   /*!
@@ -137,7 +137,7 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
         <li class="nav-item"><a class="nav-link" href="#tasks">Tasks</a></li>
       </ul>
       <span class="navbar-text">
-        [tiny_monod]
+        [fabulous_crick]
       </span>
     </div>
   </nav>
@@ -146,26 +146,26 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
     <div class="container">
 
       <h1 class="display-3">Nextflow workflow report</h1>
-      <h2 class="text-muted mb-4"><samp>[tiny_monod]</samp> </h2>
+      <h2 class="text-muted mb-4"><samp>[fabulous_crick]</samp> </h2>
 
       
-          <div class="alert alert-success mb-4">
-              Workflow execution completed successfully!
+          <div class="alert alert-warning mb-4">
+              Workflow execution completed successfully. One or more tasks reported an error condition.
           </div>
       
 
       <dl>
         <dt>Run times</dt>
         <dd>
-          <span id="workflow_start">Mon Jan 07 06:18:18 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 06:18:55 GMT 2019</span>
-          (<span id="completed_fromnow"></span>duration: <strong>37.8s</strong>)
+          <span id="workflow_start">Mon Jan 07 17:20:06 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 17:20:46 GMT 2019</span>
+          (<span id="completed_fromnow"></span>duration: <strong>40.1s</strong>)
         </dd>
 
         <dl>
           <div class="progress" style="height: 1.6rem; margin: 1.2rem auto; border-radius: 0.20rem;">
-            <div style="width: 100.0%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="1 tasks succeeded"><span class="text-truncate">&nbsp; 1 succeeded &nbsp;</span></div>
+            <div style="width: 66.67%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="2 tasks succeeded"><span class="text-truncate">&nbsp; 2 succeeded &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-secondary" data-toggle="tooltip" data-placement="top" title="0 tasks were cached"><span class="text-truncate">&nbsp; 0 cached &nbsp;</span></div>
-            <div style="width: 0.0%" class="progress-bar bg-warning" data-toggle="tooltip" data-placement="top" title="0 tasks reported and error and were ignored"><span class="text-truncate">&nbsp; 0 ignored &nbsp;</span></div>
+            <div style="width: 33.33%" class="progress-bar bg-warning" data-toggle="tooltip" data-placement="top" title="1 tasks reported and error and were ignored"><span class="text-truncate">&nbsp; 1 ignored &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="0 tasks failed"><span class="text-truncate">&nbsp; 0 failed &nbsp;</span></div>
           </div>
         </dl>
@@ -194,11 +194,11 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
 
         
           <dt class="col-sm-3">Script ID</dt>
-          <dd class="col-sm-9"><code>878498d73d4e5c88afa22c8a9cba29f6</code></dd>
+          <dd class="col-sm-9"><code>61cfd4429a1e345f0f9f6c45786d8fcd</code></dd>
         
 
         <dt class="col-sm-3">Workflow session</dt>
-        <dd class="col-sm-9"><code>aaa49272-6b2e-443a-a5fc-9ec26a03e778</code></dd>
+        <dd class="col-sm-9"><code>cae4e36e-467c-430d-9f13-0f6519d83959</code></dd>
 
         
 
@@ -986,7 +986,7 @@ $(function() {
 
   // Nextflow report data
   window.data = { "trace":[
-{"task_id":"1","hash":"01\/4462af","native_id":"24697","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"-","name":"fastQC (1)","status":"COMPLETED","exit":"0","submit":"1546841898694","start":"1546841898800","complete":"1546841935892","duration":"37198","realtime":"32887","%cpu":"118.6","%mem":"15.6","rss":"326696960","vmem":"3256479744","peak_rss":"326696960","peak_vmem":"3320090624","rchar":"588558788","wchar":"289408134","syscr":"575427","syscw":"5940","read_bytes":"576954368","write_bytes":"1003520","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/01\/4462af68f0247cd050255d203fd815","script":"\n\tcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"fastQC":{"cpu":{"mean":118.6,"min":118.6,"q1":118.6,"q2":118.6,"q3":118.6,"max":118.6,"minLabel":"fastQC (1)","maxLabel":"fastQC (1)","q1Label":"fastQC (1)","q2Label":"fastQC (1)","q3Label":"fastQC (1)"},"mem":{"mean":3256479744,"min":3256479744,"q1":3256479744,"q2":3256479744,"q3":3256479744,"max":3256479744,"minLabel":"fastQC (1)","maxLabel":"fastQC (1)","q1Label":"fastQC (1)","q2Label":"fastQC (1)","q3Label":"fastQC (1)"},"time":{"mean":32887,"min":32887,"q1":32887,"q2":32887,"q3":32887,"max":32887,"minLabel":"fastQC (1)","maxLabel":"fastQC (1)","q1Label":"fastQC (1)","q2Label":"fastQC (1)","q3Label":"fastQC (1)"},"reads":{"mean":576954368,"min":576954368,"q1":576954368,"q2":576954368,"q3":576954368,"max":576954368,"minLabel":"fastQC (1)","maxLabel":"fastQC (1)","q1Label":"fastQC (1)","q2Label":"fastQC (1)","q3Label":"fastQC (1)"},"writes":{"mean":1003520,"min":1003520,"q1":1003520,"q2":1003520,"q3":1003520,"max":1003520,"minLabel":"fastQC (1)","maxLabel":"fastQC (1)","q1Label":"fastQC (1)","q2Label":"fastQC (1)","q3Label":"fastQC (1)"},"cpuUsage":{"mean":118.6,"min":118.6,"q1":118.6,"q2":118.6,"q3":118.6,"max":118.6,"minLabel":"fastQC (1)","maxLabel":"fastQC (1)","q1Label":"fastQC (1)","q2Label":"fastQC (1)","q3Label":"fastQC (1)"},"memUsage":null,"timeUsage":null}} };
+{"task_id":"2","hash":"f6\/65ac65","native_id":"30891","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"71B069B3-970F-427C-AAAB-6AC5B97CED33","name":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","status":"FAILED","exit":"1","submit":"1546881607324","start":"1546881607436","complete":"1546881614425","duration":"7101","realtime":"1503","%cpu":"18.6","%mem":"0.1","rss":"3694592","vmem":"26415104","peak_rss":"3694592","peak_vmem":"26415104","rchar":"39724505","wchar":"39583744","syscr":"325","syscw":"302","read_bytes":"40112128","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/f6\/65ac6538f3bbc49f112996f3b745e1","script":"\n\tcat GK124_1.fastq.gz GK124_2.fastq.gzz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\tfastqc 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz > log.txt\n\trm 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"IGNORE"},{"task_id":"1","hash":"ba\/2cf805","native_id":"30896","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546881607339","start":"1546881607442","complete":"1546881644820","duration":"37481","realtime":"32204","%cpu":"130.4","%mem":"16.4","rss":"342716416","vmem":"3260674048","peak_rss":"342716416","peak_vmem":"3320090624","rchar":"592596768","wchar":"289989973","syscr":"577271","syscw":"7674","read_bytes":"577228800","write_bytes":"1298432","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/ba\/2cf80579e636d52eb927395d1d4db3","script":"\n\tcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"3","hash":"4f\/555be5","native_id":"30943","process":"followUp","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546881644854","start":"1546881644923","complete":"1546881646759","duration":"1905","realtime":"18","%cpu":"0.0","%mem":"0.0","rss":"0","vmem":"0","peak_rss":"0","peak_vmem":"0","rchar":"0","wchar":"0","syscr":"0","syscw":"0","read_bytes":"0","write_bytes":"0","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/4f\/555be5e87f6a60131350cf80c43db6","script":"\n\tcat log.txt\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"followUp":{"cpu":null,"mem":null,"time":{"mean":18,"min":18,"q1":18,"q2":18,"q3":18,"max":18,"minLabel":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"followUp (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"reads":null,"writes":null,"cpuUsage":null,"memUsage":null,"timeUsage":null},"fastQC":{"cpu":{"mean":74.5,"min":18.6,"q1":46.55,"q2":74.5,"q3":102.45,"max":130.4,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"mem":{"mean":1643544576,"min":26415104,"q1":834979840,"q2":1643544576,"q3":2452109312,"max":3260674048,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"time":{"mean":16853.5,"min":1503,"q1":9178.25,"q2":16853.5,"q3":24528.75,"max":32204,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"reads":{"mean":308670464,"min":40112128,"q1":174391296,"q2":308670464,"q3":442949632,"max":577228800,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"writes":{"mean":649216,"min":0,"q1":324608,"q2":649216,"q3":973824,"max":1298432,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"cpuUsage":{"mean":74.5,"min":18.6,"q1":46.55,"q2":74.5,"q3":102.45,"max":130.4,"minLabel":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q2Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)","q3Label":"fastQC (71B069B3-970F-427C-AAAB-6AC5B97CED33)"},"memUsage":null,"timeUsage":null}} };
 
   </script>
 

@@ -1,16 +1,21 @@
 #!/usr/bin/env nextflow
 
+
 /* test pipeline structure */
 
 /* see example here - https://github.com/cbcrg/grape-nf/blob/master/grape.nf#L191 */
 
 /*** TO DO
- - allow multiple input files to be read
  - add bbduk for adapter trimming (+/- quality trimming)
  - add kmergenie for velvet kmer finder
  - add commands to run vanilla velvet (with kmer size), spades, unicycler+spades
- - generate guids, log of these, and output file structure
+ - generate guids and log of these during pipeline
  ***/
+
+def getShortId( str ) {
+  return str.substring(0,8) 
+}
+
 
 /* parameters */
 params.index = "example_data/file_list.csv"
@@ -31,29 +36,46 @@ Channel
     .set { samples_ch }
 
 
+
+
 /* fastQC */
 
 process fastQC {
 
-	publishDir outputPath, mode: 'copy'
+	//errorStrategy 'ignore' //set globally
+	
+	
+	publishDir "$outputPath/$uuid/fastqc", mode: 'copy'
 	
 	input:
     	set sampleid, uuid, file(fq1), file(fq2) from samples_ch
 	
 	output:
-		file "log.txt" 
+		set file("${uuid}_fastqc_log.txt"), val(uuid) into log_ch
 		file "*fastqc.*"
 	
 	//tag each process with the guid
-	tag "$uuid"
+	tag "${getShortId(uuid)}"
 	
 	"""
 	cat $fq1 $fq2 > ${uuid}_merge.fq.gz
-	fastqc ${uuid}_merge.fq.gz > log.txt
+	fastqc ${uuid}_merge.fq.gz > ${uuid}_fastqc_log.txt
 	rm ${uuid}_merge.fq.gz
 	"""
 
 	
+}
+
+process followUp {
+	echo true
+	input:
+		set file("${uuid}_fastqc_log.txt"), val(uuid) from log_ch
+	
+	tag "${getShortId(uuid)}"
+	
+	"""
+	cat ${uuid}_fastqc_log.txt
+	"""
 }
 
 /*

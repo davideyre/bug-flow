@@ -18,11 +18,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Nextflow workflow report for run id [disturbed_sax]">
+  <meta name="description" content="Nextflow workflow report for run id [kickass_cori]">
   <meta name="author" content="Paolo Di Tommaso, Phil Ewels">
   <link rel="icon" type="image/png" href="https://www.nextflow.io/img/favicon.png" />
 
-  <title>[disturbed_sax] Nextflow Workflow Report</title>
+  <title>[kickass_cori] Nextflow Workflow Report</title>
 
   <style type="text/css">
   /*!
@@ -137,7 +137,7 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
         <li class="nav-item"><a class="nav-link" href="#tasks">Tasks</a></li>
       </ul>
       <span class="navbar-text">
-        [disturbed_sax]
+        [kickass_cori]
       </span>
     </div>
   </nav>
@@ -146,27 +146,30 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
     <div class="container">
 
       <h1 class="display-3">Nextflow workflow report</h1>
-      <h2 class="text-muted mb-4"><samp>[disturbed_sax]</samp> </h2>
+      <h2 class="text-muted mb-4"><samp>[kickass_cori]</samp> </h2>
 
       
-          <div class="alert alert-success mb-4">
-              Workflow execution completed successfully!
+          <div class="alert alert-danger mb-4">
+              <h4>Workflow execution completed unsuccessfully!</h4>
+              <p>The exit status of the task that caused the workflow execution to fail was: <code>null</code>.</p>
+              <p>The full error message was:</p>
+              <pre>SIGINT</pre>
           </div>
       
 
       <dl>
         <dt>Run times</dt>
         <dd>
-          <span id="workflow_start">Mon Jan 07 06:45:09 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 06:45:32 GMT 2019</span>
-          (<span id="completed_fromnow"></span>duration: <strong>22.8s</strong>)
+          <span id="workflow_start">Mon Jan 07 17:36:40 GMT 2019</span> - <span id="workflow_complete">Mon Jan 07 17:36:47 GMT 2019</span>
+          (<span id="completed_fromnow"></span>duration: <strong>7.2s</strong>)
         </dd>
 
         <dl>
           <div class="progress" style="height: 1.6rem; margin: 1.2rem auto; border-radius: 0.20rem;">
-            <div style="width: 100.0%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="2 tasks succeeded"><span class="text-truncate">&nbsp; 2 succeeded &nbsp;</span></div>
+            <div style="width: 0.0%" class="progress-bar bg-success" data-toggle="tooltip" data-placement="top" title="0 tasks succeeded"><span class="text-truncate">&nbsp; 0 succeeded &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-secondary" data-toggle="tooltip" data-placement="top" title="0 tasks were cached"><span class="text-truncate">&nbsp; 0 cached &nbsp;</span></div>
             <div style="width: 0.0%" class="progress-bar bg-warning" data-toggle="tooltip" data-placement="top" title="0 tasks reported and error and were ignored"><span class="text-truncate">&nbsp; 0 ignored &nbsp;</span></div>
-            <div style="width: 0.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="0 tasks failed"><span class="text-truncate">&nbsp; 0 failed &nbsp;</span></div>
+            <div style="width: 100.0%" class="progress-bar bg-danger" data-toggle="tooltip" data-placement="top" title="2 tasks failed"><span class="text-truncate">&nbsp; 2 failed &nbsp;</span></div>
           </div>
         </dl>
 
@@ -194,11 +197,11 @@ table.DTCR_clonedTable.dataTable{position:absolute !important;background-color:r
 
         
           <dt class="col-sm-3">Script ID</dt>
-          <dd class="col-sm-9"><code>6198527e964367f840e0c4e1724b9bd6</code></dd>
+          <dd class="col-sm-9"><code>74937632ffa54b2869b794791a893871</code></dd>
         
 
         <dt class="col-sm-3">Workflow session</dt>
-        <dd class="col-sm-9"><code>c0e50e63-5065-41e2-9945-f79bd9f649ff</code></dd>
+        <dd class="col-sm-9"><code>6cd7316a-fcfd-4750-b598-188eb859b95e</code></dd>
 
         
 
@@ -986,7 +989,7 @@ $(function() {
 
   // Nextflow report data
   window.data = { "trace":[
-{"task_id":"1","hash":"1c\/3e3a44","native_id":"25321","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C108","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","status":"COMPLETED","exit":"0","submit":"1546843510429","start":"1546843510540","complete":"1546843532546","duration":"22117","realtime":"18559","%cpu":"131.4","%mem":"14.0","rss":"294502400","vmem":"3172311040","peak_rss":"294502400","peak_vmem":"3175464960","rchar":"136235025","wchar":"823","syscr":"257729","syscw":"48","read_bytes":"130142208","write_bytes":"65536","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/1c\/3e3a44400a2ed8bafb71df306593b6","script":"fastqc GK124_1.fastq.gz > log.txt","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"2","hash":"e8\/62a320","native_id":"25326","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"63BA0270-000A-45D7-A1A1-A4B88AB6C107","name":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","status":"COMPLETED","exit":"0","submit":"1546843510446","start":"1546843510545","complete":"1546843532632","duration":"22186","realtime":"18527","%cpu":"169.8","%mem":"14.0","rss":"292626432","vmem":"3172311040","peak_rss":"292626432","peak_vmem":"3175407616","rchar":"134404868","wchar":"803","syscr":"254111","syscw":"48","read_bytes":"128307200","write_bytes":"65536","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/e8\/62a3203fc231477ac6fab4589a9195","script":"fastqc IR72_1.fastq.gz > log.txt","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"fastQC":{"cpu":{"mean":150.6,"min":131.4,"q1":141,"q2":150.6,"q3":160.2,"max":169.8,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"mem":{"mean":3172311040,"min":3172311040,"q1":3172311040,"q2":3172311040,"q3":3172311040,"max":3172311040,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"time":{"mean":18543,"min":18527,"q1":18535,"q2":18543,"q3":18551,"max":18559,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"reads":{"mean":129224704,"min":128307200,"q1":128765952,"q2":129224704,"q3":129683456,"max":130142208,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)"},"writes":{"mean":65536,"min":65536,"q1":65536,"q2":65536,"q3":65536,"max":65536,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"cpuUsage":{"mean":150.6,"min":131.4,"q1":141,"q2":150.6,"q3":160.2,"max":169.8,"minLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","maxLabel":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C107)","q1Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q2Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)","q3Label":"fastQC (63BA0270-000A-45D7-A1A1-A4B88AB6C108)"},"memUsage":null,"timeUsage":null}} };
+{"task_id":"1","hash":"9a\/b8063b","native_id":"31703","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"getShortId(71B069B3-970F-427C-AAAB-6AC5B97CED33)","name":"fastQC (getShortId(71B069B3-970F-427C-AAAB-6AC5B97CED33))","status":"ABORTED","exit":"-","submit":"1546882601284","start":"1546882601399","complete":"-","duration":"-","realtime":"-","%cpu":"-","%mem":"-","rss":"-","vmem":"-","peak_rss":"-","peak_vmem":"-","rchar":"-","wchar":"-","syscr":"-","syscw":"-","read_bytes":"-","write_bytes":"-","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/9a\/b8063bc76c09b1e34458f632e71d1b","script":"\n\tcat GK124_1.fastq.gz GK124_2.fastq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\tfastqc 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz > 71B069B3-970F-427C-AAAB-6AC5B97CED33_fastqc_log.txt\n\trm 71B069B3-970F-427C-AAAB-6AC5B97CED33_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"},{"task_id":"2","hash":"e0\/e90629","native_id":"31708","process":"fastQC","module":"-","container":"davideyre:pipeline-test","tag":"getShortId(63BA0270-000A-45D7-A1A1-A4B88AB6C107)","name":"fastQC (getShortId(63BA0270-000A-45D7-A1A1-A4B88AB6C107))","status":"ABORTED","exit":"-","submit":"1546882601297","start":"1546882601402","complete":"-","duration":"-","realtime":"-","%cpu":"-","%mem":"-","rss":"-","vmem":"-","peak_rss":"-","peak_vmem":"-","rchar":"-","wchar":"-","syscr":"-","syscw":"-","read_bytes":"-","write_bytes":"-","attempt":"1","workdir":"\/Users\/davideyre\/Drive\/academic\/infrastructure\/nextflow\/pipeline-test\/work\/e0\/e906291d1f1a1c655390a8727a0f3e","script":"\n\tcat IR72_1.fastq.gz IR72_2.fastq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\tfastqc 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz > 63BA0270-000A-45D7-A1A1-A4B88AB6C107_fastqc_log.txt\n\trm 63BA0270-000A-45D7-A1A1-A4B88AB6C107_merge.fq.gz\n\t","scratch":"-","queue":"-","cpus":"1","memory":"-","disk":"-","time":"-","env":"-","error_action":"-"}], "summary":{"fastQC":{"cpu":null,"mem":null,"time":null,"reads":null,"writes":null,"cpuUsage":null,"memUsage":null,"timeUsage":null}} };
 
   </script>
 
