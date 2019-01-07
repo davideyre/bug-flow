@@ -19,6 +19,7 @@ RUN apt-get clean all && \
 
 RUN conda config --add channels bioconda
 RUN conda config --add channels conda-forge
+
 RUN conda install bwa=0.7.15 \
 				  fastqc=0.11.8 \
 				  velvet=1.2.10 \
