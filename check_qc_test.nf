@@ -88,9 +88,10 @@ process bbDuk {
 	"""
 }
 
-process kmerGenie {
+/*
+process spades {
 	
-	publishDir "$outputPath/$uuid/kmer_genie", mode: 'copy'
+	publishDir "$outputPath/$uuid/spades", mode: 'copy'
 	
 	echo true
 	
@@ -100,12 +101,11 @@ process kmerGenie {
 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch
 	
 	output:
-		file "kmergenie.log"
+		...
 	
 	"""
-	ls -1 *.fq.gz > list_files
-    kmergenie list_files -k 191 > kmergenie.log
+	spades
 	"""
 	
 }
-
+*/

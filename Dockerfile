@@ -12,7 +12,7 @@ MAINTAINER David Eyre <david.eyre@bdi.ox.ac.uk>
 RUN apt-get clean all && \
  apt-get update && \
  apt-get upgrade -y && \
- apt-get install -y procps build-essential zlib1g-dev && \
+ apt-get install -y procps && \
  apt-get clean && \
  apt-get purge && \
  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -28,18 +28,8 @@ RUN conda install r-base \
 				  bbmap=38.22 \
 				  unicycler=0.4.7 \
 				  samtools=1.9 \
-				  blast=2.5.0
-
-# RUN mkdir /opt/kmergenie && \
-# 	cd /opt/kmergenie && \
-# 	wget http://kmergenie.bx.psu.edu/kmergenie-1.7051.tar.gz && \
-# 	tar xvf kmergenie-1.7051.tar.gz  && \
-# 	cd kmergenie-1.7051 && \
-# 	make && make install
-
-## kmergenie requires python 2.7 - create its own environment
-RUN conda create -n py27 python=2.7 kmergenie=1.7016
-
+				  blast=2.5.0 \
+				  perl-velvetoptimiser=v2.2.6
 
 WORKDIR /data/
 
