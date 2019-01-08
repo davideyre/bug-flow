@@ -45,6 +45,9 @@ samples_ch.into { samples_ch1; samples_ch2 }
 /* fastQC */
 
 process rawFastQC {
+
+	cpus = 4 // set as option --thread
+	memory = '1GB' //as determined by fastqc - 250mb per core
 	
 	input:
     	set sampleid, uuid, file(fq1), file(fq2) from samples_ch1
@@ -59,7 +62,7 @@ process rawFastQC {
 	
 	"""
 	cat $fq1 $fq2 > ${uuid}_raw.fq.gz
-	fastqc ${uuid}_raw.fq.gz > ${uuid}_raw_fastqc_log.txt
+	fastqc --threads 4 ${uuid}_raw.fq.gz > ${uuid}_raw_fastqc_log.txt
 	rm ${uuid}_raw.fq.gz
 	"""
 
@@ -67,6 +70,9 @@ process rawFastQC {
 }
 
 process bbDuk {
+
+	cpus = 4 //see threads=4
+	memory = '4GB' //see -Xmx4g
 	
 	input:
 		set sampleid, uuid, file(fq1), file(fq2) from samples_ch2
@@ -79,12 +85,12 @@ process bbDuk {
 	
 	"""
 	bbduk.sh in1=$fq1 in2=$fq2 out1=${uuid}_clean.1.fq out2=${uuid}_clean.2.fq \
-				ref=$params.bbduk_adapaters ktrim=r k=23 mink=11 hdist=1 tpe tbo
+				ref=$params.bbduk_adapaters ktrim=r k=23 mink=11 hdist=1 tpe tbo -Xmx4g threads=4
 	gzip ${uuid}_clean.1.fq ${uuid}_clean.2.fq
 	"""
 }
 
-
+/*
 process spades {
 	
 	input:
@@ -106,5 +112,5 @@ process spades {
 	"""
 	
 }
-
+*/
 
