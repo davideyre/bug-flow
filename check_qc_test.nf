@@ -37,33 +37,30 @@ Channel
     .map{ row-> tuple(row.sampleid, row.uuid, file(row.fq1), file(row.fq2)) }
     .set { samples_ch }
 
+samples_ch.into { samples_ch1; samples_ch2 }
+
 
 
 
 /* fastQC */
 
-process fastQC {
-
-	//errorStrategy 'ignore' //set globally
-	
-	
-	publishDir "$outputPath/$uuid/fastqc", mode: 'copy'
+process rawFastQC {
 	
 	input:
-    	set sampleid, uuid, file(fq1), file(fq2) from samples_ch
+    	set sampleid, uuid, file(fq1), file(fq2) from samples_ch1
 	
 	output:
-		file "${uuid}_fastqc_log.txt" 
+		file "${uuid}_raw_fastqc_log.txt" 
 		file "*fastqc.*"
 		set uuid, file(fq1), file(fq2) into fastqc_out_ch
 	
-	//tag each process with the guid
 	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/fastqc", mode: 'copy', pattern: "${uuid}*"
 	
 	"""
-	cat $fq1 $fq2 > ${uuid}_merge.fq.gz
-	fastqc ${uuid}_merge.fq.gz > ${uuid}_fastqc_log.txt
-	rm ${uuid}_merge.fq.gz
+	cat $fq1 $fq2 > ${uuid}_raw.fq.gz
+	fastqc ${uuid}_raw.fq.gz > ${uuid}_raw_fastqc_log.txt
+	rm ${uuid}_raw.fq.gz
 	"""
 
 	
@@ -71,15 +68,14 @@ process fastQC {
 
 process bbDuk {
 	
-	publishDir "$outputPath/$uuid/clean_fastq", mode: 'copy'
-	
 	input:
-		set uuid, file(fq1), file(fq2) from fastqc_out_ch
+		set sampleid, uuid, file(fq1), file(fq2) from samples_ch2
 	
 	output:
 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") into bbduk_out_ch
 	
 	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/clean_fastq", mode: 'copy'
 	
 	"""
 	bbduk.sh in1=$fq1 in2=$fq2 out1=${uuid}_clean.1.fq out2=${uuid}_clean.2.fq \
@@ -88,24 +84,27 @@ process bbDuk {
 	"""
 }
 
-/*
+
 process spades {
-	
-	publishDir "$outputPath/$uuid/spades", mode: 'copy'
-	
-	echo true
-	
-	tag "${getShortId(uuid)}"
 	
 	input:
 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch
 	
 	output:
-		...
+		file "${uuid}_*"
+		
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/spades", mode: 'copy', pattern: "${uuid}_*"
 	
 	"""
-	spades
+	spades.py --careful -o spades -1 ${uuid}_clean.1.fq.gz -2 ${uuid}_clean.2.fq.gz
+	cp spades/contigs.fasta ${uuid}_spades_contigs.fa
+	cp spades/assembly_graph.fastg ${uuid}_spades_assembly_graph.fastg
+	cp spades/assembly_graph_with_scaffolds.gfa ${uuid}_spades_assembly_graph_with_scaffolds.gfa
+	cp spades/spades.log ${uuid}_spades.log
+	
 	"""
 	
 }
-*/
+
+
