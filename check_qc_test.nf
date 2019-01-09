@@ -6,9 +6,7 @@
 /* see example here - https://github.com/cbcrg/grape-nf/blob/master/grape.nf#L191 */
 
 /*** TO DO
- - add bbduk for adapter trimming (+/- quality trimming)
- - add kmergenie for velvet kmer finder
- - add commands to run vanilla velvet (with kmer size), spades, unicycler+spades
+ - add commands to run unicycler+spades
  - generate guids and log of these during pipeline
  ***/
 
@@ -44,6 +42,7 @@ samples_ch.into { samples_ch1; samples_ch2 }
 
 /* fastQC */
 
+
 process rawFastQC {
 
 	cpus = 4 // set as option --thread
@@ -69,6 +68,7 @@ process rawFastQC {
 	
 }
 
+
 process bbDuk {
 
 	cpus = 4 //see threads=4
@@ -90,11 +90,13 @@ process bbDuk {
 	"""
 }
 
+bbduk_out_ch.into { bbduk_out_ch1; bbduk_out_ch2 }
+
 /*
 process spades {
 	
 	input:
-		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch
+		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch1
 	
 	output:
 		file "${uuid}_*"
@@ -114,3 +116,27 @@ process spades {
 }
 */
 
+process velvet {
+
+	memory = '12GB'
+	cpus = 1
+	echo true
+
+	input:
+		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch2
+	
+	output:
+		file "${uuid}_*"
+
+		
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/velvet", mode: 'copy', pattern: "${uuid}_*"
+	
+	"""
+	VelvetOptimiser.pl -s 53 -e 53 -x 4 -f '-shortPaired -fastq.gz -separate ${uuid}_clean.1.fq.gz ${uuid}_clean.2.fq.gz' -t 1
+	cp auto_data_*/contigs.fa ${uuid}_velvet_contigs.fa
+	cp auto_data_*/stats.txt ${uuid}_velvet_stats.txt
+	cp *Logfile.txt ${uuid}_velvet_logfile.txt
+	"""
+
+}
