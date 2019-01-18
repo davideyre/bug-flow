@@ -89,7 +89,7 @@ process removeDuplicates{
     	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") into dup_removed
     
     tag "${getShortId(uuid)}"
-	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy', pattern: "${uuid}.ba*"
+	publishDir "$outputPath/$uuid/bwa_mapped/bam", mode: 'copy', pattern: "${uuid}.ba*"
 
 	//sort by name to run fixmate (to remove BWA artefacts) and provide info for markdup
 	//sort by position to run markdup (and then remove duplicates)
@@ -116,7 +116,7 @@ process snpCall{
     	set uuid, file("${uuid}.vcf.gz") into snps_called
    
     tag "${getShortId(uuid)}"
-	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy'
+	publishDir "$outputPath/$uuid/bwa_mapped/basecalls", mode: 'copy'
 
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
@@ -140,21 +140,23 @@ process snpCall{
 //filter SNPS
 
 
-//generate concensus fasta file
-process concensusFa{
+//generate consensus fasta file
+process consensusFa{
 
 	input:
 		set uuid, file("${uuid}.vcf.gz") from snps_called
 		file refFasta
 	
 	output:
-		set uuid, file("${uuid}.fa") into fa_file
+		set uuid, file("${uuid}.consensus.fa") into fa_file
 	
 	tag "${getShortId(uuid)}"
-	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy'
+	publishDir "$outputPath/$uuid/bwa_mapped/basecalls", mode: 'copy'
 
 	"""
-	cat $refFasta | bcftools consensus ${uuid}.vcf.gz > ${uuid}.fa
+	bcftools norm -f $refFasta -m +any -Oz -o ${uuid}.norm.vcf.gz ${uuid}.vcf.gz
+	bcftools index ${uuid}.norm.vcf.gz
+	cat $refFasta | bcftools consensus ${uuid}.norm.vcf.gz > ${uuid}.consensus.fa
 	"""
 
 }
