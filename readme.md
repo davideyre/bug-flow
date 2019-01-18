@@ -54,6 +54,7 @@ example nextflow pipeline with multiple assemblers - https://github.com/cdeanj/n
 bbduk discussion - http://seqanswers.com/forums/showpost.php?p=206425&postcount=215
 raw read assembly step by step - https://github.com/HRGV/DGHM2017_assembly/wiki/From-raw-reads-to-assembly---STEP-by-STEP
 nextflow example with multiple clsuter and local executor settings - https://github.com/h3abionet/h3agwas/blob/master/nextflow.config
+https://github.com/assemblerflow/flowcraft - modular pipeline with nextflow
 
 ## Notes
 
