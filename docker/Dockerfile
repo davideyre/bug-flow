@@ -28,7 +28,8 @@ RUN conda install bwa=0.7.15 \
 				  unicycler=0.4.7 \
 				  samtools=1.9 \
 				  blast=2.5.0 \
-				  perl-velvetoptimiser=2.2.6
+				  perl-velvetoptimiser=2.2.6 \
+				  bcftools=1.9
 
 WORKDIR /data/
 

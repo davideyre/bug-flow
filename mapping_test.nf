@@ -1,14 +1,6 @@
 #!/usr/bin/env nextflow
 
-
-/* test pipeline structure */
-
-/* see example here - https://github.com/cbcrg/grape-nf/blob/master/grape.nf#L191 */
-
-/*** TO DO
- - add commands to run unicycler+spades
- - generate guids and log of these during pipeline
- ***/
+/* simple example pipeline for mapping and variant calling */
 
 def getShortId( str ) {
   return str.substring(0,8) 
@@ -19,7 +11,7 @@ def getShortId( str ) {
 params.index = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
-params.threads = 4
+params.threads = 6
 
 /* initial logging */
 log.info "Pipeline Test -- version 0.1"
@@ -57,6 +49,7 @@ process bwa_index {
 	
     """
     bwa index ${refFasta}
+    samtools faidx ${refFasta}
     """
 }
 
@@ -70,20 +63,100 @@ process bwa{
     	file refFasta
 
     output:
-    	set uuid, file("${uuid}_alignment.sam") into bwa_mapped
+    	set uuid, file("${uuid}.aligned.sam") into bwa_mapped
     
     
     tag "${getShortId(uuid)}"
-	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy'
+	//publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy'
 
-	// -R option specifies read group header line for output
-	// 		chosen settings based on those used historically
     """
-    bwa mem -R '@RG\tID:${uuid}\tSM:null\tLB:null\tCN:null' \
-    		-t ${threads} \
+    bwa mem -t ${threads} \
     		${refFasta} \
     		${fq1} \
     		${fq2} \
-    > ${uuid}_alignment.sam
+    > ${uuid}.aligned.sam
     """
 }
+
+//remove duplicates using samtools v 1.9
+process removeDuplicates{
+
+    input:
+    	set uuid, file("${uuid}.aligned.sam") from bwa_mapped
+    	file "*" from bwa_index
+
+    output:
+    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") into dup_removed
+    
+    tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy', pattern: "${uuid}.ba*"
+
+	//sort by name to run fixmate (to remove BWA artefacts) and provide info for markdup
+	//sort by position to run markdup (and then remove duplicates)
+    """
+    samtools sort -@${threads} -n -o sorted.bam ${uuid}.aligned.sam
+    samtools fixmate -m sorted.bam fixed.sorted.bam
+    samtools sort -@${threads} -o fixed.resorted.bam fixed.sorted.bam
+    samtools markdup -r fixed.resorted.bam ${uuid}.bam
+    samtools index ${uuid}.bam
+    """
+}
+
+
+//call SNPs using samtools
+process snpCall{
+
+
+    input:
+    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed
+    	file "*" from bwa_index
+    	file refFasta
+ 
+    output:
+    	set uuid, file("${uuid}.vcf.gz") into snps_called
+   
+    tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy'
+
+	//use bcftools mpileup to generate vcf file
+	//mpileup genearates the likelihood of each base at each site
+	//call converts this to actual variants in the VCF file
+	//filter applies filters - commented out for now
+    """
+    bcftools mpileup -f $refFasta ${uuid}.bam | \
+    	bcftools call -Oz -mv --ploidy 1 --threads $threads > ${uuid}.vcf.gz
+    """
+    /*
+        """
+    bcftools mpileup -f $refFasta ${uuid}.bam | \
+    	bcftools call -Ou -mv | \
+    	bcftools filter -s LowQual -e '%QUAL<20 || DP>100' > ${uuid}.vcf
+    """
+    */
+
+}
+
+
+//filter SNPS
+
+
+//generate concensus fasta file
+process concensusFa{
+
+	input:
+		set uuid, file("${uuid}.vcf.gz") from snps_called
+		file refFasta
+	
+	output:
+		set uuid, file("${uuid}.fa") into fa_file
+	
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/bwa_mapped", mode: 'copy'
+
+	"""
+	cat $refFasta | bcftools consensus ${uuid}.vcf.gz > ${uuid}.fa
+	"""
+
+}
+
+
