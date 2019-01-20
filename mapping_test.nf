@@ -113,50 +113,69 @@ process snpCall{
     	file refFasta
  
     output:
-    	set uuid, file("${uuid}.vcf.gz") into snps_called
+    	set uuid, file("${uuid}.bcf") into snps_called
    
     tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/basecalls", mode: 'copy'
 
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
-	//call converts this to actual variants in the VCF file
-	//filter applies filters - commented out for now
+	//call converts this to actual variants in the BCF or VCF file
+	//norm, normalises indels
+		//-m +any option to join biallelic sites into multiallelic records
+		// and do this for any (i.e. SNPs and indels)
     """
-    bcftools mpileup -f $refFasta ${uuid}.bam | \
-    	bcftools call -Oz -mv --ploidy 1 --threads $threads > ${uuid}.vcf.gz
+    bcftools mpileup -Ou -f $refFasta ${uuid}.bam | \
+    	bcftools call -Ou -mv --ploidy 1 --threads $threads | \
+    	bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf
     """
-    /*
-        """
-    bcftools mpileup -f $refFasta ${uuid}.bam | \
-    	bcftools call -Ou -mv | \
-    	bcftools filter -s LowQual -e '%QUAL<20 || DP>100' > ${uuid}.vcf
-    """
-    */
 
 }
 
 
 //filter SNPS
+process filterSnps{
 
+
+    input:
+    	set uuid, file("${uuid}.bcf") from snps_called
+ 
+    output:
+    	set uuid, file("${uuid}.vcf.gz"), file("${uuid}.vcf.gz.csi") into filtered_snps
+   
+    tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/bwa_mapped/basecalls", mode: 'copy'
+
+	//use bcftools to filter normalised bcf file from pileup and call
+	//use one line for each filter condition and label
+	//create index at end for random access and consensus calling
+    """
+    bcftools filter -s Q30 -e '%QUAL<30' -Ou ${uuid}.bcf | \
+    	bcftools filter -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
+    	bcftools filter -s Consensus75 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]))<3' -m+ -Ou | \
+    	bcftools filter -s HQDepth5 -e '(DP4[2]+DP4[3])<=5' -m+ -Oz -o ${uuid}.vcf.gz
+    bcftools index ${uuid}.vcf.gz
+    """
+    
+
+}
 
 //generate consensus fasta file
 process consensusFa{
 
 	input:
-		set uuid, file("${uuid}.vcf.gz") from snps_called
+		set uuid, file("${uuid}.vcf.gz"), file("${uuid}.vcf.gz.csi") from filtered_snps
 		file refFasta
 	
 	output:
-		set uuid, file("${uuid}.consensus.fa") into fa_file
+		set uuid, file("${uuid}.fa") into fa_file
+		file "*"
 	
 	tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/basecalls", mode: 'copy'
 
 	"""
-	bcftools norm -f $refFasta -m +any -Oz -o ${uuid}.norm.vcf.gz ${uuid}.vcf.gz
-	bcftools index ${uuid}.norm.vcf.gz
-	cat $refFasta | bcftools consensus ${uuid}.norm.vcf.gz > ${uuid}.consensus.fa
+	cat $refFasta | bcftools consensus ${uuid}.vcf.gz > ${uuid}.fa
 	"""
 
 }
