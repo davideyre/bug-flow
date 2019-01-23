@@ -1,5 +1,6 @@
 .nextflow*
 work/
 nextflow_reports/
-example_output/
+example_output/*
 private.md
+example_data/*

@@ -2,7 +2,7 @@
 FROM continuumio/miniconda3:latest  
 
 ################## METADATA ###################### 
-LABEL about.summary="Test Dockerfile for running pipelines"
+LABEL about.summary="BUGflow: nextflow based pipeline for processing bacterial sequencing data"
 
 ################## MAINTAINER ###################### 
 MAINTAINER David Eyre <david.eyre@bdi.ox.ac.uk>  
@@ -25,8 +25,9 @@ RUN conda install bwa=0.7.15 \
 				  spades=3.13.0 \
 				  bbmap=38.22 \
 				  samtools=1.9 \
-				  blast=2.5.0 \
+				  htslib=1.9 \
 				  bcftools=1.9 \
+				  blast=2.5.0 \
 				  numpy=1.15.4 \
 				  biopython=1.72
 

@@ -18,15 +18,29 @@ Clone the repository locally
 git clone https://github.com/davideyre/bug-flow.git
 ```
 
-### Build the docker image
-Within the clone repository
+### Get the docker image
+This can be pulled from docker hub
+```
+
+```
+
+Alternatively the docker image can be built from the Dockerfile. Within the clone repository:
 ```
 cd docker
 docker build -t bug-flow .
 ```
+Note the tag has to match in the `nextflow.config` file.
+
 
 ### Download the example data
-
+From EBI download 2 sets of fastq files
+```
+cd example_data
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR334/008/SRR3349138/SRR3349138_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR334/008/SRR3349138/SRR3349138_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR334/004/SRR3349174/SRR3349174_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR334/004/SRR3349174/SRR3349174_2.fastq.gz
+```
 
 
 ## Run the pipeline
