@@ -22,13 +22,10 @@ RUN conda config --add channels conda-forge
 
 RUN conda install bwa=0.7.15 \
 				  fastqc=0.11.8 \
-				  velvet=1.2.10 \
 				  spades=3.13.0 \
 				  bbmap=38.22 \
-				  unicycler=0.4.7 \
 				  samtools=1.9 \
 				  blast=2.5.0 \
-				  perl-velvetoptimiser=2.2.6 \
 				  bcftools=1.9 \
 				  numpy=1.15.4 \
 				  biopython=1.72

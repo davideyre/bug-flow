@@ -1,5 +1,13 @@
 #!/usr/bin/env nextflow
 
+/* TO DO
+
+set up memory and CPU for spades
+
+
+*/
+
+
 /* 
 An example pipeline for mapping followed by variant calling and de novo assembly
 
