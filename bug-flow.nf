@@ -1,15 +1,19 @@
 #!/usr/bin/env nextflow
 
 /* 
-An example pipeline for mapping and variant calling
- - based on BWA mem
- - samtools / bcftools
- - filters
+An example pipeline for mapping followed by variant calling and de novo assembly
 
-NB. Indels are saved but not used for the consensus sequence.
+Mapping - 
+ - based on BWA mem
+ - samtools / bcftools (NB. Indels are saved but not used for the consensus sequence)
+ - filters
+ 
+Assembly
+ - spades or velvet optimiser based velvet
+
 */
 
-
+//function for coverting UUID to first 8 digits
 def getShortId( str ) {
   return str.substring(0,8) 
 }
@@ -19,16 +23,22 @@ def getShortId( str ) {
 params.index = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
-params.threads = 6
+params.threads = 6 //number of threads for multithreaded tasks
+params.bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path within docker image
 
 // initial logging 
-log.info "Pipeline Test -- version 0.1"
+log.info "BUGflow -- version 0.1"
 log.info "Input file              : ${params.index}"
 log.info "Output path             : ${params.outputPath}"
 
-// set up initial channel
+
+// rename input parameters
+refFasta = file(params.refFile)
+threads = params.threads
 outputPath = file(params.outputPath)
 
+
+// set up initial channel based on CSV file
 Channel
     .fromPath(params.index)
     .splitCsv(header:true)
@@ -36,9 +46,6 @@ Channel
     .set { samples_ch }
 
 samples_ch.into { samples_ch1; samples_ch2 }
-
-refFasta = file(params.refFile)
-threads = params.threads
 
 
 // Build indexes for reference fasta file - bwa, samtools, repeatmask
@@ -73,11 +80,134 @@ process indexReference {
 }
 
 
+
+// initial fastQC
+process rawFastQC {
+
+	cpus = threads // set as option --thread
+	memory = "${threads*0.25} G" //as determined by fastqc - 250mb per core
+	
+	input:
+    	set sampleid, uuid, file(fq1), file(fq2) from samples_ch1
+	
+	output:
+		file "*"
+	
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/raw_fastqc", mode: 'copy', pattern: "${uuid}*"
+	
+	"""
+	cat $fq1 $fq2 > ${uuid}_raw.fq.gz
+	fastqc --threads ${task.cpus} ${uuid}_raw.fq.gz > ${uuid}_raw_fastqc_log.txt
+	rm ${uuid}_raw.fq.gz
+	"""
+
+}
+
+//adapter trimming with bbDuk
+process bbDuk {
+
+	cpus = threads //see threads=4
+	memory = 4.GB //see -Xmx4g, based on example runs
+	
+	input:
+		set sampleid, uuid, file(fq1), file(fq2) from samples_ch2
+	
+	output:
+		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") into bbduk_out_ch
+	
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/clean_fastq", mode: 'copy'
+	
+	"""
+	bbduk.sh in1=$fq1 in2=$fq2 out1=${uuid}_clean.1.fq out2=${uuid}_clean.2.fq \
+				ref=$params.bbduk_adapaters ktrim=r k=23 mink=11 hdist=1 \
+				tpe tbo -Xmx${task.memory.toGiga()}g threads=${task.cpus}
+	gzip ${uuid}_clean.1.fq ${uuid}_clean.2.fq
+	"""
+}
+
+//split cleaned reads into 3 channels - for repeat QC, assembly and mapping
+bbduk_out_ch.into { bbduk_out_ch1; bbduk_out_ch2; bbduk_out_ch3 }
+
+
+// repeat fastQC
+process cleanFastQC {
+
+	cpus = threads // set as option --thread
+	memory = "${threads*0.25} G" //as determined by fastqc - 250mb per core
+	
+	input:
+    	set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch1
+	
+	output:
+		file "*"
+	
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/clean_fastqc", mode: 'copy', pattern: "${uuid}*"
+	
+	"""
+	cat ${uuid}_clean.1.fq.gz ${uuid}_clean.2.fq.gz > ${uuid}_clean.fq.gz
+	fastqc --threads ${task.cpus} ${uuid}_clean.fq.gz > ${uuid}_clean_fastqc_log.txt
+	rm ${uuid}_clean.fq.gz
+	"""
+
+}
+
+process spades {
+	
+	input:
+		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch2
+	
+	output:
+		file "${uuid}_*"
+		
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/spades", mode: 'copy', pattern: "${uuid}_*"
+	
+	"""
+	spades.py --careful -o spades -1 ${uuid}_clean.1.fq.gz -2 ${uuid}_clean.2.fq.gz
+	cp spades/contigs.fasta ${uuid}_spades_contigs.fa
+	cp spades/assembly_graph.fastg ${uuid}_spades_assembly_graph.fastg
+	cp spades/assembly_graph_with_scaffolds.gfa ${uuid}_spades_assembly_graph_with_scaffolds.gfa
+	cp spades/spades.log ${uuid}_spades.log
+	"""
+	
+}
+
+
+// process velvet {
+// 
+// 	memory = '12GB' //best guess from previous runs
+// 	cpus = 1 //just use one for now given memory limitation
+// 	echo true
+// 
+// 	input:
+// 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch2
+// 	
+// 	output:
+// 		file "${uuid}_*"
+// 
+// 		
+// 	tag "${getShortId(uuid)}"
+// 	publishDir "$outputPath/$uuid/velvet", mode: 'copy', pattern: "${uuid}_*"
+// 	
+// 	"""
+// 	VelvetOptimiser.pl -s 33 -e 171 -x 4 -f '-shortPaired -fastq.gz \
+//		-separate ${uuid}_clean.1.fq.gz ${uuid}_clean.2.fq.gz' -t ${task.cpus}
+// 	cp auto_data_*/contigs.fa ${uuid}_velvet_contigs.fa
+// 	cp auto_data_*/stats.txt ${uuid}_velvet_stats.txt
+// 	cp *Logfile.txt ${uuid}_velvet_logfile.txt
+// 	"""
+// 
+// }
+
+
 // Map reads to reference genome with BWA MEM
 process bwa{
 
     input:
-    	set sampleid, uuid, file(fq1), file(fq2) from samples_ch1
+    	set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch3
     	file "*" from ref_index
     	file refFasta
 
@@ -90,8 +220,8 @@ process bwa{
     """
     bwa mem -t ${task.cpus} \
     		$refFasta \
-    		$fq1 \
-    		$fq2 \
+    		${uuid}_clean.1.fq.gz \
+    		${uuid}_clean.2.fq.gz \
     > ${uuid}.aligned.sam
     """
 }
