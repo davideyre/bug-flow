@@ -24,7 +24,7 @@ This can be pulled from docker hub
 docker pull davideyre/bug-flow
 ```
 
-Alternatively the docker image can be built from the Dockerfile. Within the clone repository:
+Alternatively the docker image can be built from the Dockerfile. Within the cloned repository:
 ```
 cd docker
 docker build -t bug-flow .
