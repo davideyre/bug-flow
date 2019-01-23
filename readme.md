@@ -27,7 +27,7 @@ docker pull davideyre/bug-flow
 Alternatively the docker image can be built from the Dockerfile. Within the cloned repository:
 ```
 cd docker
-docker build -t bug-flow .
+docker build -t davideyre/bug-flow .
 ```
 Note the tag has to match in the `nextflow.config` file.
 
