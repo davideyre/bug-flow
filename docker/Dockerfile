@@ -29,7 +29,9 @@ RUN conda install bwa=0.7.15 \
 				  samtools=1.9 \
 				  blast=2.5.0 \
 				  perl-velvetoptimiser=2.2.6 \
-				  bcftools=1.9
+				  bcftools=1.9 \
+				  numpy=1.15.4 \
+				  biopython=1.72
 
 WORKDIR /data/
 

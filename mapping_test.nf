@@ -18,7 +18,6 @@ def getShortId( str ) {
 params.index = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
-params.maskFile = "example_data/R00000419.repeatmask"
 params.threads = 6
 
 // initial logging 
@@ -38,7 +37,6 @@ Channel
 samples_ch.into { samples_ch1; samples_ch2 }
 
 refFasta = file(params.refFile)
-refMask = file(params.maskFile)
 threads = params.threads
 
 
@@ -47,7 +45,6 @@ process indexReference {
   
     input:
         file refFasta
-        file refMask
 	
 	output:
 		file "*" into ref_index
@@ -58,13 +55,17 @@ process indexReference {
 
     """
     #bwa index
-    bwa index ${refFasta}
+    bwa index $refFasta
     
     #samtools index
-    samtools faidx ${refFasta}
+    samtools faidx $refFasta
+    
+    #blast indexes for self-self blast
+	makeblastdb -dbtype nucl -in $refFasta
     
     #reference mask
-    bgzip -c $refMask > ${refFasta.baseName}.rpt_mask.gz
+    genRefMask.py -r $refFasta -m 200 -p 95
+    bgzip -c ${refFasta}.rpt.regions > ${refFasta.baseName}.rpt_mask.gz
 	echo '##INFO=<ID=RPT,Number=1,Type=Integer,Description="Flag for variant in repetitive region">' > ${refFasta.baseName}.rpt_mask.hdr
 	tabix -s1 -b2 -e3 ${refFasta.baseName}.rpt_mask.gz
     """
