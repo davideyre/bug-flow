@@ -21,7 +21,7 @@ git clone https://github.com/davideyre/bug-flow.git
 ### Get the docker image
 This can be pulled from docker hub
 ```
-
+docker pull davideyre/bug-flow
 ```
 
 Alternatively the docker image can be built from the Dockerfile. Within the clone repository:
