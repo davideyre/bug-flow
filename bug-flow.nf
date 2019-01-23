@@ -17,7 +17,7 @@ Mapping -
  - filters
  
 Assembly
- - spades or velvet optimiser based velvet
+ - spades 
 
 */
 
@@ -183,32 +183,6 @@ process spades {
 	
 }
 
-
-// process velvet {
-// 
-// 	memory = '12GB' //best guess from previous runs
-// 	cpus = 1 //just use one for now given memory limitation
-// 	echo true
-// 
-// 	input:
-// 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch2
-// 	
-// 	output:
-// 		file "${uuid}_*"
-// 
-// 		
-// 	tag "${getShortId(uuid)}"
-// 	publishDir "$outputPath/$uuid/velvet", mode: 'copy', pattern: "${uuid}_*"
-// 	
-// 	"""
-// 	VelvetOptimiser.pl -s 33 -e 171 -x 4 -f '-shortPaired -fastq.gz \
-//		-separate ${uuid}_clean.1.fq.gz ${uuid}_clean.2.fq.gz' -t ${task.cpus}
-// 	cp auto_data_*/contigs.fa ${uuid}_velvet_contigs.fa
-// 	cp auto_data_*/stats.txt ${uuid}_velvet_stats.txt
-// 	cp *Logfile.txt ${uuid}_velvet_logfile.txt
-// 	"""
-// 
-// }
 
 
 // Map reads to reference genome with BWA MEM
