@@ -3,4 +3,4 @@ work/
 nextflow_reports/
 example_output/*
 private.md
-example_data/*
+example_data/*.gz
