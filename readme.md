@@ -8,9 +8,9 @@ This is intended to be an example of what is possible with nextflow rather than 
 
 The pipeline uses these tools:
 
-fastQC —> bbDUK for adapter removal 
+fastQC —> bbDUK for adapter removal  
   —> fastQC  
-  —> BWA mem —> bcftools for variant calling and filtering
+  —> BWA mem —> bcftools for variant calling and filtering  
   —> spades for de novo assembly
 
 ## Installation
