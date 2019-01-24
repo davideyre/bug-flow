@@ -34,10 +34,15 @@ params.refFile = "example_data/R00000419.fasta"
 params.threads = 6 //number of threads for multithreaded tasks
 params.bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path within docker image
 
-// initial logging 
+// initial logging
+log.info "\n" 
 log.info "BUGflow -- version 0.1"
-log.info "Input file              : ${params.index}"
-log.info "Output path             : ${params.outputPath}"
+log.info "Input file             :  ${params.index}"
+log.info "Output path            :  ${params.outputPath}"
+log.info "Container engine       :  ${workflow.containerEngine}"
+log.info "Container              :  ${workflow.container}"
+log.info "Profile                :  ${workflow.profile}"
+log.info "\n"
 
 
 // rename input parameters
@@ -65,7 +70,6 @@ process indexReference {
 	output:
 		file "*" into ref_index
 	
-	cpus 1	
 	tag {refFasta}
 	publishDir "$outputPath/reference/${refFasta.baseName}", mode: 'copy'
 
@@ -91,9 +95,6 @@ process indexReference {
 
 // initial fastQC
 process rawFastQC {
-
-	cpus = threads // set as option --thread
-	memory = "${threads*0.25} G" //as determined by fastqc - 250mb per core
 	
 	input:
     	set sampleid, uuid, file(fq1), file(fq2) from samples_ch1
@@ -114,9 +115,6 @@ process rawFastQC {
 
 //adapter trimming with bbDuk
 process bbDuk {
-
-	cpus = threads //see threads=4
-	memory = 4.GB //see -Xmx4g, based on example runs
 	
 	input:
 		set sampleid, uuid, file(fq1), file(fq2) from samples_ch2
@@ -141,9 +139,6 @@ bbduk_out_ch.into { bbduk_out_ch1; bbduk_out_ch2; bbduk_out_ch3 }
 
 // repeat fastQC
 process cleanFastQC {
-
-	cpus = threads // set as option --thread
-	memory = "${threads*0.25} G" //as determined by fastqc - 250mb per core
 	
 	input:
     	set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch1
@@ -196,7 +191,6 @@ process bwa{
     output:
     	set uuid, file("${uuid}.aligned.sam") into bwa_mapped
     
-    cpus threads
     tag "${getShortId(uuid)}"
 
     """
@@ -217,8 +211,7 @@ process removeDuplicates{
 
     output:
     	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") into dup_removed
-    
-    cpus threads
+
     tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/bam", mode: 'copy', pattern: "${uuid}.ba*"
 
@@ -245,7 +238,6 @@ process mpileup{
     output:
     	set uuid, file("pileup.bcf") into pileup
    
-   	cpus 1
     tag "${getShortId(uuid)}"
 
 	//use bcftools mpileup to generate vcf file
@@ -268,7 +260,6 @@ process snpCall{
     output:
     	set uuid, file("${uuid}.bcf"), file("${uuid}.allsites.bcf") into snps_called
    
-    cpus 1
     tag "${getShortId(uuid)}"
 
 	//call converts pileup to actual variants in the BCF or VCF file
@@ -303,7 +294,6 @@ process filterSnps{
     	set uuid, file("${uuid}.snps.vcf.gz"), file("${uuid}.snps.vcf.gz.csi"), 
     		file("${uuid}.zero_coverage.vcf.gz"), file("${uuid}.zero_coverage.vcf.gz.csi") into filtered_snps
    
-    cpus 1
     tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.snps.*"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.indels.*"
@@ -361,7 +351,6 @@ process consensusFa{
 	output:
 		set uuid, file("${uuid}.fa") into fa_file
 	
-	cpus 1
 	tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/fasta", mode: 'copy', pattern: "${uuid}.*"
 
