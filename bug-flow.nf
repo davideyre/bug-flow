@@ -1,13 +1,5 @@
 #!/usr/bin/env nextflow
 
-/* TO DO
-
-set up memory and CPU for spades
-
-
-*/
-
-
 /* 
 An example pipeline for mapping followed by variant calling and de novo assembly
 
@@ -31,8 +23,8 @@ def getShortId( str ) {
 params.index = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
-params.threads = 6 //number of threads for multithreaded tasks
-params.bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path within docker image
+
+
 
 // initial logging
 log.info "\n" 
@@ -50,6 +42,8 @@ refFasta = file(params.refFile)
 threads = params.threads
 outputPath = file(params.outputPath)
 
+//location for bbduk adapter sequences
+bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path within docker/singularity image
 
 // set up initial channel based on CSV file
 Channel
@@ -127,7 +121,7 @@ process bbDuk {
 	
 	"""
 	bbduk.sh in1=$fq1 in2=$fq2 out1=${uuid}_clean.1.fq out2=${uuid}_clean.2.fq \
-				ref=$params.bbduk_adapaters ktrim=r k=23 mink=11 hdist=1 \
+				ref=$bbduk_adapaters ktrim=r k=23 mink=11 hdist=1 \
 				tpe tbo -Xmx${task.memory.toGiga()}g threads=${task.cpus}
 	gzip ${uuid}_clean.1.fq ${uuid}_clean.2.fq
 	"""
@@ -169,7 +163,8 @@ process spades {
 	publishDir "$outputPath/$uuid/spades", mode: 'copy', pattern: "${uuid}_*"
 	
 	"""
-	spades.py --careful -o spades -1 ${uuid}_clean.1.fq.gz -2 ${uuid}_clean.2.fq.gz
+	spades.py --careful -o spades -1 ${uuid}_clean.1.fq.gz -2 ${uuid}_clean.2.fq.gz \
+		-t ${task.cpus} -m ${task.memory.toGiga()}
 	cp spades/contigs.fasta ${uuid}_spades_contigs.fa
 	cp spades/assembly_graph.fastg ${uuid}_spades_assembly_graph.fastg
 	cp spades/assembly_graph_with_scaffolds.gfa ${uuid}_spades_assembly_graph_with_scaffolds.gfa
