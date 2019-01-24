@@ -20,16 +20,16 @@ def getShortId( str ) {
 
 
 // parameters 
-params.index = "example_data/file_list.csv"
+params.seqlist = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
-
 
 
 // initial logging
 log.info "\n" 
 log.info "BUGflow -- version 0.1"
-log.info "Input file             :  ${params.index}"
+log.info "Input sequence list    :  ${params.seqlist}"
+log.info "Input reference file   :  ${params.refFile}"
 log.info "Output path            :  ${params.outputPath}"
 log.info "Container engine       :  ${workflow.containerEngine}"
 log.info "Container              :  ${workflow.container}"
@@ -46,7 +46,7 @@ bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path wi
 
 // set up initial channel based on CSV file
 Channel
-    .fromPath(params.index)
+    .fromPath(params.seqlist)
     .splitCsv(header:true)
     .map{ row-> tuple(row.sampleid, row.uuid, file(row.fq1), file(row.fq2)) }
     .set { samples_ch }
