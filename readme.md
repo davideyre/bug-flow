@@ -67,8 +67,39 @@ Examples of each of the three files can be found in `example_data`.
 ### Nextflow config
 By default the workflow will run using up to 6 cores and 16GB of memory, e.g. on a laptop / desktop. An alternative set up can be used. This is specified in the nextflow.config file. More details on potential settings are given here - https://www.nextflow.io/docs/latest/config.html#. Example profiles are provided for running the pipeline on a server (36 cores, 384GB memory) and a SGE cluster. To run the pipeline using the server profile:
 ```
-nextflow run bug-flow.nf -profile server -seqlist example_data/file_list.csv -outputPath example_output -refFile example_data/R00000419.fasta
+nextflow run bug-flow.nf -profile server \
+	--seqlist example_data/file_list.csv \
+	--outputPath example_output \
+	--refFile example_data/R00000419.fasta
 ```
+
+## Notes
+
+### Singularity support
+If docker is not available in your setup, it is also possible to create a singularity image. A recipe for building the image is supplied:
+
+```
+cd singularity
+sudo singularity build bug-flow.img Singularity
+```
+
+You will the need to modify the nextflow.config file. 
+
+Change 
+
+```
+process.container = 'davideyre/bug-flow:latest'
+docker.enabled = true
+```
+
+to
+
+```
+process.container = "singularity/bug-flow.img"
+singularity.enabled = true
+```
+
+Alternatively you can run the pipeline with a profile that uses singularity, e.g. the cluster profile.
 
 ### Housekeeping
 Periodically you may wish to delete the working files created by the pipeline, the contents of the work/ directory can be safely removed, but any cached parts of the pipeline will be lost
