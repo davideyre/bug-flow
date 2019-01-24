@@ -44,7 +44,9 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR334/004/SRR3349174/SRR3349174_2.fastq
 
 
 ## Run the pipeline
-From within the locally cloned repository
+
+### Example pipeline
+Having downloaded the example files above to `example_data`, from within the locally cloned repository
 ```
 nextflow run bug-flow.nf
 ```
@@ -54,10 +56,25 @@ Alternatively to resume a partially completed run where the intermediate files h
 nextflow run bug-flow.nf -resume
 ```
 
+### Run your own data
+Three input options need to be set
+1. `-seqlist my_seqlist.csv`: a CSV file with 4 columns (sampleid, uuid, fq1, fq2). These headers must be used. Sampleid is an arbitrary name for your sample, uuid is a globally unique identifier for your sample that will be used to store output (this can be generated e.g. with `uuidgen` on linux/mac), fq1 and fq2 are the paths to the forward and reverse read fastq files for your samples.
+2. `-outputPath my_output_directory`: the path to your output folder
+3. `refFile my_ref.fasta`: the path to your reference file to be used for mapping and variant calling.
+
+Examples of each of the three files can be found in `example_data`.
+
+### Nextflow config
+By default the workflow will run using up to 6 cores and 16GB of memory, e.g. on a laptop / desktop. An alternative set up can be used. This is specified in the nextflow.config file. More details on potential settings are given here - https://www.nextflow.io/docs/latest/config.html#. Example profiles are provided for running the pipeline on a server (36 cores, 384GB memory) and a SGE cluster. To run the pipeline using the server profile:
+```
+nextflow run bug-flow.nf -profile server -seqlist example_data/file_list.csv -outputPath example_output -refFile example_data/R00000419.fasta
+```
+
+### Housekeeping
 Periodically you may wish to delete the working files created by the pipeline, the contents of the work/ directory can be safely removed, but any cached parts of the pipeline will be lost
 
-## Notes
-If you run the docker container directly and access it interactively this may cause strange behaviour with the pipeline if you use the same tag.  
+### Notes
+If you run the docker container outside of the pipeline and access it interactively this may cause strange behaviour with the pipeline if you use the same image.  
 
 David Eyre
 david.eyre@bdi.ox.ac.uk
