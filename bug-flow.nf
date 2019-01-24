@@ -175,7 +175,7 @@ process spades {
 
 
 // Map reads to reference genome with BWA MEM
-process bwa{
+process bwa {
 
     input:
     	set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch3
@@ -197,7 +197,7 @@ process bwa{
 }
 
 //remove duplicates using samtools v 1.9
-process removeDuplicates{
+process removeDuplicates {
 
     input:
     	set uuid, file("${uuid}.aligned.sam") from bwa_mapped
@@ -222,7 +222,7 @@ process removeDuplicates{
 
 
 //run samtools mpileup - creates BCF containing genotype likelihoods 
-process mpileup{
+process mpileup {
 
     input:
     	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed
@@ -244,7 +244,7 @@ process mpileup{
 
 
 //call SNPs using samtools call from mpileup file
-process snpCall{
+process snpCall {
 
     input:
     	set uuid, file("pileup.bcf") from pileup
@@ -277,7 +277,7 @@ process snpCall{
 
 
 //filter SNPS
-process filterSnps{
+process filterSnps {
 
     input:
     	set uuid, file("${uuid}.bcf"), file("${uuid}.allsites.bcf") from snps_called
@@ -335,7 +335,7 @@ process filterSnps{
 }
 
 //generate consensus fasta file
-process consensusFa{
+process consensusFa {
 
 	input:
 		set uuid, file("${uuid}.snps.vcf.gz"), file("${uuid}.snps.vcf.gz.csi"), 
