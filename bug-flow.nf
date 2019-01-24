@@ -39,7 +39,6 @@ log.info "\n"
 
 // rename input parameters
 refFasta = file(params.refFile)
-threads = params.threads
 outputPath = file(params.outputPath)
 
 //location for bbduk adapter sequences
