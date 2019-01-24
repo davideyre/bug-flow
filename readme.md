@@ -83,7 +83,9 @@ cd singularity
 sudo singularity build bug-flow.img Singularity
 ```
 
-You will the need to modify the nextflow.config file. 
+If you do not have sudo access on the pipeline compute, the image can be built separately and copied to `singularity/bug-flow.img`.
+
+You will the need to modify the nextflow.config file to use Singularity.
 
 Change 
 
