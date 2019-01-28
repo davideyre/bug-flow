@@ -41,6 +41,7 @@ log.info "\n"
 // rename input parameters
 refFasta = file(params.refFile)
 outputPath = file(params.outputPath)
+runSpades = params.runSpades
 
 //location for bbduk adapter sequences
 bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path within docker/singularity image
