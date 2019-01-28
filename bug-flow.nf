@@ -23,6 +23,7 @@ def getShortId( str ) {
 params.seqlist = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
+params.runSpades = 1
 
 
 // initial logging
@@ -150,7 +151,8 @@ process cleanFastQC {
 
 }
 
-process spades {
+if (runSpades == 1) {
+	process spades {
 	
 	input:
 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") from bbduk_out_ch2
@@ -169,8 +171,9 @@ process spades {
 	cp spades/assembly_graph_with_scaffolds.gfa ${uuid}_spades_assembly_graph_with_scaffolds.gfa
 	cp spades/spades.log ${uuid}_spades.log
 	"""
-	
+	}
 }
+
 
 
 
