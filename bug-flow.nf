@@ -15,7 +15,12 @@ Assembly
 
 //function for coverting UUID to first 8 digits
 def getShortId( str ) {
-  return str.substring(0,8) 
+  if (input_type_is_csv) {
+    return str.substring(0,8)
+  }
+  else {
+    return str
+  }
 }
 
 
@@ -23,7 +28,11 @@ def getShortId( str ) {
 params.seqlist = "example_data/file_list.csv"
 params.outputPath = "example_output"
 params.refFile = "example_data/R00000419.fasta"
+params.input_type_is_csv = true
 
+// parameters if input_type_is_csv is false
+params.indir = ""
+params.readpat = ""
 
 // initial logging
 log.info "\n" 
@@ -41,16 +50,29 @@ log.info "\n"
 refFasta = file(params.refFile)
 outputPath = file(params.outputPath)
 
+indir = params.indir
+readpat = params.readpat
+input_type_is_csv = params.input_type_is_csv
+data_path = indir + readpat
+
 //location for bbduk adapter sequences
 bbduk_adapaters = "/opt/conda/opt/bbmap-38.22-0/resources/adapters.fa" //path within docker/singularity image
 
-// set up initial channel based on CSV file
-Channel
-    .fromPath(params.seqlist)
-    .splitCsv(header:true)
-    .map{ row-> tuple(row.sampleid, row.uuid, file(row.fq1), file(row.fq2)) }
-    .set { samples_ch }
-
+if (input_type_is_csv) {
+  // set up initial channel based on CSV file
+  Channel
+      .fromPath(params.seqlist)
+      .splitCsv(header:true)
+      .map{ row-> tuple(row.uuid, file(row.fq1), file(row.fq2)) }
+      .set { samples_ch }
+}
+else {
+  // alternatively, set up channel from input_dir and readpat
+  Channel
+      .fromFilePairs(data_path, flat: true)
+      .ifEmpty{ error "Cannot find any reads matching: ${params.readpat}" }
+      .set { samples_ch }
+}
 samples_ch.into { samples_ch1; samples_ch2 }
 
 
@@ -90,7 +112,7 @@ process indexReference {
 process rawFastQC {
 	
 	input:
-    	set sampleid, uuid, file(fq1), file(fq2) from samples_ch1
+        set uuid, file(fq1), file(fq2) from samples_ch1
 	
 	output:
 		file "*"
@@ -110,7 +132,7 @@ process rawFastQC {
 process bbDuk {
 	
 	input:
-		set sampleid, uuid, file(fq1), file(fq2) from samples_ch2
+		set uuid, file(fq1), file(fq2) from samples_ch2
 	
 	output:
 		set uuid, file("${uuid}_clean.1.fq.gz"), file("${uuid}_clean.2.fq.gz") into bbduk_out_ch
