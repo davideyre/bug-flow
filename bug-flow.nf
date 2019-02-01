@@ -265,7 +265,7 @@ process mpileup {
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
  	"""
-    bcftools mpileup -Ou -f $refFasta ${uuid}.bam > pileup.bcf
+    bcftools mpileup -B -Ou -f $refFasta ${uuid}.bam > pileup.bcf
     """
 
 }
