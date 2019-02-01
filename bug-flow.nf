@@ -1,5 +1,13 @@
 #!/usr/bin/env nextflow
 
+
+/*** TO DO
+
+ - add back in zero coverage sites into GATK pipeline
+ 
+***/
+
+
 /* 
 An example pipeline for mapping followed by variant calling and de novo assembly
 
@@ -105,6 +113,9 @@ process indexReference {
     bgzip -c ${refFasta}.rpt.regions > ${refFasta.baseName}.rpt_mask.gz
 	echo '##INFO=<ID=RPT,Number=1,Type=Integer,Description="Flag for variant in repetitive region">' > ${refFasta.baseName}.rpt_mask.hdr
 	tabix -s1 -b2 -e3 ${refFasta.baseName}.rpt_mask.gz
+	
+	#gatk reference dictionary
+	gatk CreateSequenceDictionary -R $refFasta -O ${refFasta.baseName}.dict
     """
 }
 
@@ -213,6 +224,7 @@ process bwa {
     
     tag "${getShortId(uuid)}"
 
+	//don't add read group header here results in poorly formatted header
     """
     bwa mem -t ${task.cpus} \
     		$refFasta \
@@ -248,8 +260,8 @@ process removeDuplicates {
 
 dup_removed.into { dup_removed1; dup_removed2 }
 
-//run GATK haplotype caller 
-process gatk_haplotype {
+//clean bam file using GATK
+process gatk_clean {
 
     input:
     	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed1
@@ -257,30 +269,152 @@ process gatk_haplotype {
     	file "*" from ref_index
  
     output:
-    	set uuid, file("${uuid}.gatk.raw.snps.indels.vcf") into gatk_var
+    	set uuid, file("${uuid}.clean.bam"), file("${uuid}.clean.bam.bai") into gatk_clean_bam
    
     tag "${getShortId(uuid)}"
-    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk_vcf", mode: 'copy', pattern: "${uuid}.gatk.*"
+    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy'
 
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
  	"""
-    gatk HaplotypeCaller \
-     -R $refFasta \
-     -I ${uuid}.bam \
-     --sample_ploidy 1
-     -stand_call_conf 10 \
-     -o ${uuid}.gatk.raw.snps.indels.vcf
+ 	# add appropriate read group headers
+ 	gatk AddOrReplaceReadGroups \
+ 		-I ${uuid}.bam \
+ 		-O temp.bam \
+ 		--RGID=${uuid} --RGLB=null_library --RGPL=illumina --RGPU=null_platform_unit --RGSM=${uuid}
+ 	
+ 	#fix any mate pair information
+ 	gatk FixMateInformation -I temp.bam -O ${uuid}.clean.bam
+ 	
+ 	samtools index ${uuid}.clean.bam
+ 	
+ 	#don't run validate for now
+ 	#gatk ValidateSamFile -I ${uuid}.clean.bam -R $refFasta
     """
 
 }
+
+//run GATK haplotype caller 
+process gatk_haplotype {
+
+	echo true
+
+    input:
+    	set uuid, file("${uuid}.clean.bam"), file("${uuid}.clean.bam.bai") from gatk_clean_bam
+    	file refFasta
+    	file "*" from ref_index
+ 
+    output:
+    	set uuid, file("${uuid}.gatk.raw.vcf") into gatk_raw_var
+   
+    tag "${getShortId(uuid)}"
+    //publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy', pattern: "${uuid}.gatk.*"
+
+	//use bcftools mpileup to generate vcf file
+	//mpileup genearates the likelihood of each base at each site
+	// list of annotations that can be included  - https://software.broadinstitute.org/gatk/documentation/tooldocs/current/
+ 	"""
+    gatk HaplotypeCaller \
+     -R $refFasta \
+     -I ${uuid}.clean.bam \
+     -O ${uuid}.gatk.raw.vcf \
+     -ploidy 1 \
+     -A DepthPerAlleleBySample -A Coverage -A StrandBiasBySample -A BaseQuality
+    """
+
+}
+
+
+//filter SNPS
+process gatk_filterSnps {
+
+    input:
+    	set uuid, file("${uuid}.gatk.raw.vcf") from gatk_raw_var
+    	file refFasta
+    	file "*" from ref_index
+ 
+    output:
+    	set uuid, file("${uuid}.snps.vcf.gz"), file("${uuid}.snps.vcf.gz.csi") into gatk_filtered_snps
+    	file "*"
+   
+    tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy', pattern: "${uuid}.snps.vcf.*"
+	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy', pattern: "${uuid}.indels.vcf.*"
+	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy', pattern: "${uuid}.zero_coverage.*"
+	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy', pattern: "${uuid}.all.*"
+	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy'
+	
+	//use bcftools to filter normalised bcf file of variants from pileup and call
+	//use one line for each filter condition and label
+	//create index at end for random access and consensus calling
+	
+	//filters
+		// quality >30
+		// one read in each direction to support variant
+		// not in a repeat region
+		// consensus of >75% reads to support alternative allele
+		// mask SNPs within 3 bp of INDEL
+		// require high quality depth of 5 for call
+	
+	
+	"""  
+    #annotate raw vcf file with repetitive regions
+	bcftools annotate -a ${refFasta.baseName}.rpt_mask.gz -c CHROM,FROM,TO,RPT \
+		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.gatk.raw.vcf -Oz -o ${uuid}.snps.indels.masked.vcf.gz
+	bcftools index ${uuid}.snps.indels.masked.vcf.gz
+	
+	#filter vcf
+    bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou ${uuid}.snps.indels.masked.vcf.gz | \
+    	bcftools filter -S . -s OneEachWay -e 'SB[0:2] == 0 || SB[0:3] ==0' -m+ -Ou | \
+    	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
+    	bcftools filter -S . -s Consensus75 -e '((SB[0:2]+SB[0:3])/(SB[0:0]+SB[0:1]))<3' -m+ -Ou | \
+    	bcftools filter -S . -s SnpGap --SnpGap 3 -m+ -Ou | \
+    	bcftools filter -S . -s HQDepth5 -e '(SB[0:2]+SB[0:3])<=5' -m+ -Oz -o ${uuid}.filtered.vcf.gz
+    bcftools index ${uuid}.filtered.vcf.gz
+    
+    #output separate snps and indels files
+    bcftools filter -i 'TYPE="indel"' -m+ -Oz -o ${uuid}.indels.vcf.gz ${uuid}.filtered.vcf.gz
+    bcftools index ${uuid}.indels.vcf.gz
+    
+    bcftools filter -i 'TYPE="snp"' -m+ -Oz -o ${uuid}.snps.vcf.gz ${uuid}.filtered.vcf.gz
+    bcftools index ${uuid}.snps.vcf.gz
+	"""
+
+
+}
+
+
+process gatk_consensusFa {
+
+	input:
+		set uuid, file("${uuid}.snps.vcf.gz"), file("${uuid}.snps.vcf.gz.csi") from gatk_filtered_snps
+		file refFasta
+	
+	output:
+		set uuid, file("${uuid}.fa") into fa_file
+	
+	tag "${getShortId(uuid)}"
+	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk", mode: 'copy', pattern: "${uuid}.*"
+
+	// call consensus sequence
+		// -S flag in bcftools filter sets GT (genotype) to missing, with -M flag here
+		// setting value to N
+	"""
+	cat $refFasta | bcftools consensus -H 1 -M "N" ${uuid}.snps.vcf.gz > ${uuid}.fa
+	"""
+}
+
+
+
+
+
 
 /*
 //run samtools mpileup - creates BCF containing genotype likelihoods 
 process mpileup {
 
     input:
-    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed1
+    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed2
     	file refFasta
     	file "*" from ref_index
  
