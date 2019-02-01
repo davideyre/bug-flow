@@ -265,9 +265,8 @@ process gatk_haplotype {
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
  	"""
-    java -jar GenomeAnalysisTK.jar \
+    gatk HaplotypeCaller \
      -R $refFasta \
-     -T HaplotypeCaller \
      -I ${uuid}.bam \
      --sample_ploidy 1
      -stand_call_conf 10 \

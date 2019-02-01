@@ -17,7 +17,6 @@ RUN apt-get clean all && \
  apt-get purge && \
  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN conda config --add channels defaults
 RUN conda config --add channels bioconda
 RUN conda config --add channels conda-forge
 
@@ -32,11 +31,10 @@ RUN conda install bwa=0.7.15 \
 				  blast=2.5.0 \
 				  numpy=1.15.4 \
 				  biopython=1.72 \
-				  gatk4=4.0.5.1
+				  openssl=1.0 \
+				  gatk4=4.1.0.0
 
-## temporary fix for samtools and gatk lib clash
-RUN cd /opt/conda/lib && \
-	ln -s libcrypto.so.1.1 libcrypto.so.1.0.0
+# need older version of openssl to support samtools 1.9
 
 WORKDIR /data/
 
