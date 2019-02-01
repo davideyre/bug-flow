@@ -345,7 +345,8 @@ process filterSnps {
     	bcftools filter -S . -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
-    	bcftools filter -S . -s SnpGap --SnpGap 7 -m+ -Ou | \
+    	bcftools filter -s SnpGap --SnpGap 7 -m+ -Ou | \
+    	bcftools filter -S . -s -SnpGap -e 'FILTER ~ "SnpGap"' -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(DP4[2]+DP4[3])<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     #create vcf file with just SNPs
