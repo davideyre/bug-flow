@@ -293,7 +293,7 @@ process snpCall {
     # call variants only
     # 	-m use multiallelic model
     # 	-v output variants only
-    bcftools call -Ou -m -v --ploidy 1 pileup.bcf | \
+    bcftools call --prior 0.01 -Ou -m -v --ploidy 1 pileup.bcf | \
     	bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf
     	
     # call all sites
