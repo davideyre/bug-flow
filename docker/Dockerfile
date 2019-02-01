@@ -29,7 +29,8 @@ RUN conda install bwa=0.7.15 \
 				  bcftools=1.9 \
 				  blast=2.5.0 \
 				  numpy=1.15.4 \
-				  biopython=1.72
+				  biopython=1.72 \
+				  gatk4=4.0.5.1
 
 WORKDIR /data/
 

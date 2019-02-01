@@ -246,12 +246,42 @@ process removeDuplicates {
     """
 }
 
+dup_removed.into { dup_removed1; dup_removed2 }
 
+//run GATK haplotype caller 
+process gatk_haplotype {
+
+    input:
+    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed1
+    	file refFasta
+    	file "*" from ref_index
+ 
+    output:
+    	set uuid, file("${uuid}.gatk.raw.snps.indels.vcf") into gatk_var
+   
+    tag "${getShortId(uuid)}"
+    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/gatk_vcf", mode: 'copy', pattern: "${uuid}.gatk.*"
+
+	//use bcftools mpileup to generate vcf file
+	//mpileup genearates the likelihood of each base at each site
+ 	"""
+    java -jar GenomeAnalysisTK.jar \
+     -R $refFasta \
+     -T HaplotypeCaller \
+     -I ${uuid}.bam \
+     --sample_ploidy 1
+     -stand_call_conf 10 \
+     -o ${uuid}.gatk.raw.snps.indels.vcf
+    """
+
+}
+
+/*
 //run samtools mpileup - creates BCF containing genotype likelihoods 
 process mpileup {
 
     input:
-    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed
+    	set uuid, file("${uuid}.bam"), file("${uuid}.bam.bai") from dup_removed1
     	file refFasta
     	file "*" from ref_index
  
@@ -386,4 +416,4 @@ process consensusFa {
 	"""
 }
 
-
+*/
