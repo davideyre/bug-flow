@@ -331,7 +331,7 @@ process filterSnps {
 		// quality >30
 		// one read in each direction to support variant
 		// not in a repeat region
-		// consensus of >75% reads to support alternative allele
+		// consensus of >90% reads to support alternative allele
 		// mask SNPs within 7 bp of INDEL
 		// require high quality depth of 5 for call
 	
@@ -344,12 +344,12 @@ process filterSnps {
     bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou ${uuid}.masked.bcf | \
     	bcftools filter -S . -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
-    	bcftools filter -S . -s Consensus75 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]))<3' -m+ -Ou | \
+    	bcftools filter -S . -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
     	bcftools filter -S . -s SnpIndel --SnpGap 7 -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(DP4[2]+DP4[3])<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     #create vcf file with just SNPs
-    bcftools filter -i 'TYPE="snp"' -m+ -Oz -o ${uuid}.snps.vcf.gz ${uuid}.all.vcf.gz 
+    bcftools filter -S -i 'TYPE="snp"' -m+ -Oz -o ${uuid}.snps.vcf.gz ${uuid}.all.vcf.gz 
     bcftools index ${uuid}.snps.vcf.gz
     
     #create vcf file with just INDELs
