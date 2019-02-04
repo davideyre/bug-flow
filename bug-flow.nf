@@ -281,7 +281,7 @@ process snpCall {
     	file "*" from ref_index
  
     output:
-    	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf"), file("${uuid}.allsites.bcf") into snps_called
+    	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf.gz"), file("${uuid}.allsites.bcf") into snps_called
    
     tag "${getShortId(uuid)}"
 
@@ -293,7 +293,7 @@ process snpCall {
     """   
     # call INDEL sites from pileup.bcf
     bcftools filter -s SnpGap --SnpGap 7 -Ou pileup.bcf | \
-    	bcftools filter -i 'FILTER == "SnpGap"' -Ou -o indel.mask.bcf
+    	bcftools filter -i 'FILTER == "SnpGap"' -Ob -o indel.mask.bcf.gz
     
     # call variants only
     # 	-m use multiallelic model
@@ -313,7 +313,7 @@ process snpCall {
 process filterSnps {
 
     input:
-    	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf"), file("${uuid}.allsites.bcf") from snps_called
+    	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf.gz"), file("${uuid}.allsites.bcf") from snps_called
     	file refFasta
     	file "*" from ref_index
  
@@ -343,12 +343,12 @@ process filterSnps {
     """
     #annotate vcf file with repetitive regions
 	bcftools annotate -a ${refFasta.baseName}.rpt_mask.gz -c CHROM,FROM,TO,RPT \
-		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.bcf -Ou -o ${uuid}.masked.bcf
+		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.bcf -Ob -o ${uuid}.masked.bcf.gz
 	
 	#annotate vcf file with regions close to INDELs
-	bcftools index indel.mask.bcf
-	bcftools index ${uuid}.masked.bcf	
-	bcftools annotate -a indel.mask.bcf ${uuid}.masked.bcf -Ou -o merge.bcf -c FILTER
+	bcftools index indel.mask.bcf.gz
+	bcftools index ${uuid}.masked.bcf.gz	
+	bcftools annotate -a indel.mask.bcf.gz ${uuid}.masked.bcf.gz -Ou -o merge.bcf -c FILTER
     
     #filter vcf
     bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou merge.bcf | \
