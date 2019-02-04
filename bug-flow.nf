@@ -262,7 +262,7 @@ process mpileup {
     	set uuid, file("pileup.bcf") into pileup
    
     tag "${getShortId(uuid)}"
-    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
+    //publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
 
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
@@ -285,7 +285,7 @@ process snpCall {
     	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf.gz"), file("${uuid}.allsites.bcf") into snps_called
    
     tag "${getShortId(uuid)}"
-    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
+    //publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
 
 	//call converts pileup to actual variants in the BCF or VCF file
 	//norm, normalises indels
