@@ -216,7 +216,7 @@ process bwa {
 
 	//don't add read group header here results in poorly formatted header
     """
-    bwa mem -r 1.0 -O 6 \
+    bwa mem -r 1.0 -O 5 \
     		-t ${task.cpus} \
     		$refFasta \
     		${uuid}_clean.1.fq.gz \
@@ -266,7 +266,7 @@ process mpileup {
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
  	"""
-    bcftools mpileup -Ou -f $refFasta ${uuid}.bam > pileup.bcf
+    bcftools mpileup -Q25 -q30 -E -o40 -e20 -h100 -m2 -F0.002 -Ou -f $refFasta ${uuid}.bam > pileup.bcf
     """
 
 }
