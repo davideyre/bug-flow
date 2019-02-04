@@ -284,6 +284,7 @@ process snpCall {
     	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf.gz"), file("${uuid}.allsites.bcf") into snps_called
    
     tag "${getShortId(uuid)}"
+    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
 
 	//call converts pileup to actual variants in the BCF or VCF file
 	//norm, normalises indels
