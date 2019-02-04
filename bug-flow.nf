@@ -216,7 +216,7 @@ process bwa {
 
 	//don't add read group header here results in poorly formatted header
     """
-    bwa mem -r 1.0 -O 2 \
+    bwa mem -r 1.0 -O 6 \
     		-t ${task.cpus} \
     		$refFasta \
     		${uuid}_clean.1.fq.gz \
