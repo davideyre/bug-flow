@@ -216,7 +216,7 @@ process bwa {
 
 	//don't add read group header here results in poorly formatted header
     """
-    bwa mem -r 1.0 -O 5 \
+    bwa mem -r 1.5 -O 6 \
     		-t ${task.cpus} \
     		$refFasta \
     		${uuid}_clean.1.fq.gz \
@@ -262,7 +262,6 @@ process mpileup {
     	set uuid, file("pileup.bcf") into pileup
    
     tag "${getShortId(uuid)}"
-    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
 
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
@@ -363,7 +362,6 @@ process filterSnps {
     bcftools filter -e 'DP>0' -Oz -o ${uuid}.zero_coverage.vcf.gz ${uuid}.allsites.bcf
     bcftools index ${uuid}.zero_coverage.vcf.gz
     """
-    
 
 }
 
