@@ -32,7 +32,8 @@ RUN conda install bwa=0.7.15 \
 				  numpy=1.15.4 \
 				  biopython=1.72 \
 				  openssl=1.0 \
-				  gatk4=4.1.0.0
+				  gatk4=4.1.0.0 \
+				  freebayes=1.2.0
 
 # need older version of openssl to support samtools 1.9
 
