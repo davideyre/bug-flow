@@ -262,6 +262,7 @@ process mpileup {
     	set uuid, file("pileup.bcf") into pileup
    
     tag "${getShortId(uuid)}"
+    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
 
 	//use bcftools mpileup to generate vcf file
 	//mpileup genearates the likelihood of each base at each site
