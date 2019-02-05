@@ -284,7 +284,8 @@ process normalise_snps {
 	
 	
     """   
-    bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf raw_var.vcf
+    #bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf raw_var.vcf
+    vcfallelicprimitives -kg raw_var.vcf | bcftools view -Ou -o ${uuid}.bcf
     """
 
 }
