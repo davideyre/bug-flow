@@ -359,7 +359,7 @@ process consensusFa {
 		set uuid, file("${uuid}.fa") into fa_file
 	
 	tag "${getShortId(uuid)}"
-	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/fasta", mode: 'copy', pattern: "${uuid}.*"
+	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/freebayes", mode: 'copy', pattern: "${uuid}.*"
 
 	// call consensus sequence
 		// -S flag in bcftools filter sets GT (genotype) to missing, with -M flag here
