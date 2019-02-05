@@ -332,7 +332,6 @@ process filterSnps {
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((SAF+SAR)/(SRF+SRR+SAF+SAR))<=0.9' -m+ -Ou | \
     	bcftools filter -s SnpGap --SnpGap 7 -m+ -Ou | \
-    	#bcftools filter -S . -s SnpGap -e 'FILTER ~ "SnpGap"' -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(SAF+SAR)<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     
