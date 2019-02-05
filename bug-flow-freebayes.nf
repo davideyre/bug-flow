@@ -327,7 +327,7 @@ process filterSnps {
 		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.bcf -Ob -o ${uuid}.masked.bcf.gz
     
     #filter vcf
-    bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou ${uuid}.masked.bcf.gz | \
+    bcftools filter -S . -s Q25 -e '%QUAL<25' -Ou ${uuid}.masked.bcf.gz | \
     	bcftools filter -S . -s OneEachWay -e 'SAF == 0 || SAR ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((SAF+SAR)/(SRF+SRR+SAF+SAR))<=0.9' -m+ -Ou | \
