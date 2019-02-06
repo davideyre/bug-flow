@@ -344,7 +344,7 @@ process filterSnps {
 		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.bcf -Ob -o ${uuid}.masked.bcf.gz
     
     #filter vcf
-    bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou merge.bcf | \
+    bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou ${uuid}.masked.bcf.gz | \
     	bcftools filter -S . -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
