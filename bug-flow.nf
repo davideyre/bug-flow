@@ -282,7 +282,7 @@ process snpCall {
     	file "*" from ref_index
  
     output:
-    	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf.gz"), file("${uuid}.allsites.bcf") into snps_called
+    	set uuid, file("${uuid}.bcf"), file("${uuid}.allsites.bcf") into snps_called
    
     tag "${getShortId(uuid)}"
     //publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
@@ -292,11 +292,7 @@ process snpCall {
 		//-m +any option to join biallelic sites into multiallelic records
 		// and do this for any (i.e. SNPs and indels)
 	
-    """   
-    # call INDEL sites from pileup.bcf
-    bcftools filter -s SnpGap --SnpGap 7 -Ou pileup.bcf | \
-    	bcftools filter -i 'FILTER == "SnpGap"' -Ob -o indel.mask.bcf.gz
-    
+    """      
     # call variants only
     # 	-m use multiallelic model
     # 	-v output variants only
@@ -315,7 +311,7 @@ process snpCall {
 process filterSnps {
 
     input:
-    	set uuid, file("${uuid}.bcf"), file("indel.mask.bcf.gz"), file("${uuid}.allsites.bcf") from snps_called
+    	set uuid, file("${uuid}.bcf"), file("${uuid}.allsites.bcf") from snps_called
     	file refFasta
     	file "*" from ref_index
  
@@ -346,18 +342,12 @@ process filterSnps {
     #annotate vcf file with repetitive regions
 	bcftools annotate -a ${refFasta.baseName}.rpt_mask.gz -c CHROM,FROM,TO,RPT \
 		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.bcf -Ob -o ${uuid}.masked.bcf.gz
-	
-	#annotate vcf file with regions close to INDELs
-	bcftools index indel.mask.bcf.gz
-	bcftools index ${uuid}.masked.bcf.gz	
-	bcftools annotate -a indel.mask.bcf.gz ${uuid}.masked.bcf.gz -Ou -o merge.bcf -c FILTER
     
     #filter vcf
     bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou merge.bcf | \
     	bcftools filter -S . -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
-    	bcftools filter -S . -s SnpGap -e 'FILTER ~ "SnpGap"' -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(DP4[2]+DP4[3])<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     #create vcf file with just SNPs
