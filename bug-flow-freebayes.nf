@@ -268,7 +268,7 @@ process freebayes {
 
 }
 
-//call SNPs using samtools call from mpileup file
+//convert complex alleles to standard indels and snps
 process normalise_snps {
 
     input:
@@ -283,8 +283,7 @@ process normalise_snps {
     publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/freebayes", mode: 'copy'
 	
 	
-    """   
-    #bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf raw_var.vcf
+    """
     vcfallelicprimitives -kg raw_var.vcf | bcftools view -Ou -o ${uuid}.bcf
     """
 
@@ -304,10 +303,6 @@ process filterSnps {
     	file "*"
    
     tag "${getShortId(uuid)}"
-	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.snps.*"
-	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.indels.*"
-	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.zero_coverage.*"
-	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.all.*"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/freebayes", mode: 'copy'
 	
 	//use bcftools to filter normalised bcf file of variants from pileup and call
@@ -332,8 +327,6 @@ process filterSnps {
     	bcftools filter -S . -s OneEachWay -e 'SAF == 0 || SAR ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((SAF+SAR)/(SRF+SRR+SAF+SAR))<=0.9' -m+ -Ou | \
-    	bcftools filter -s SnpGap --SnpGap 7 -m+ -Ou | \
-    	bcftools filter -S . -s SnpGap -e 'FILTER ~ "SnpGap"' -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(SAF+SAR)<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     
