@@ -346,7 +346,7 @@ process filterSnps {
     
     #filter vcf
     bcftools filter -s Q30 -e '%QUAL<30' -Ou ${uuid}.masked.bcf.gz | \
-    	bcftools filter -s HetroZ -e 'GT="het"' -m+ -Ou | \
+    	bcftools filter -s HetroZ -e "GT='het'" -m+ -Ou | \
     	bcftools filter -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
     	bcftools filter -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
