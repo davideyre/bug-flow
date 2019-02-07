@@ -285,7 +285,7 @@ process snpCall {
     	set uuid, file("${uuid}.bcf"), file("${uuid}.allsites.bcf") into snps_called
    
     tag "${getShortId(uuid)}"
-    //publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
+    publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
 
 	//call converts pileup to actual variants in the BCF or VCF file
 	//norm, normalises indels
@@ -296,11 +296,11 @@ process snpCall {
     # call variants only
     # 	-m use multiallelic model
     # 	-v output variants only
-    bcftools call --prior 0.01 -Ou -m -v --ploidy 1 pileup.bcf | \
+    bcftools call --prior 0.01 -Ou -m -v pileup.bcf | \
     	bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf
     	
     # call all sites
-    bcftools call -Ou -m --ploidy 1 pileup.bcf | \
+    bcftools call -Ou -m pileup.bcf | \
     	bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.allsites.bcf
     """
 
@@ -325,7 +325,8 @@ process filterSnps {
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.indels.*"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.zero_coverage.*"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy', pattern: "${uuid}.all.*"
-
+	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/vcf", mode: 'copy'
+	
 	//use bcftools to filter normalised bcf file of variants from pileup and call
 	//use one line for each filter condition and label
 	//create index at end for random access and consensus calling
@@ -344,11 +345,12 @@ process filterSnps {
 		-h ${refFasta.baseName}.rpt_mask.hdr ${uuid}.bcf -Ob -o ${uuid}.masked.bcf.gz
     
     #filter vcf
-    bcftools filter -S . -s Q30 -e '%QUAL<30' -Ou ${uuid}.masked.bcf.gz | \
-    	bcftools filter -S . -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
-    	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
-    	bcftools filter -S . -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
-    	bcftools filter -S . -s HQDepth5 -e '(DP4[2]+DP4[3])<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
+    bcftools filter -s Q30 -e '%QUAL<30' -Ou ${uuid}.masked.bcf.gz | \
+    	bcftools filter -s HetroZ -e 'GT="het"' -m+ -Ou | \
+    	bcftools filter -s OneEachWay -e 'DP4[2] == 0 || DP4[3] ==0' -m+ -Ou | \
+    	bcftools filter -s RptRegion -e 'RPT=1' -m+ -Ou | \
+    	bcftools filter -s Consensus90 -e '((DP4[2]+DP4[3])/(DP4[0]+DP4[1]+DP4[2]+DP4[3]))<=0.9' -m+ -Ou | \
+    	bcftools filter -s HQDepth5 -e '(DP4[2]+DP4[3])<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     #create vcf file with just SNPs
     bcftools filter -i 'TYPE="snp"' -m+ -Oz -o ${uuid}.snps.vcf.gz ${uuid}.all.vcf.gz 
@@ -375,15 +377,24 @@ process consensusFa {
 	
 	output:
 		set uuid, file("${uuid}.fa") into fa_file
+		//file("*")
 	
 	tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/fasta", mode: 'copy', pattern: "${uuid}.*"
+	//publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/fasta", mode: 'copy'
 
 	// call consensus sequence
 		// -S flag in bcftools filter sets GT (genotype) to missing, with -M flag here
 		// setting value to N
 	"""
-	cat $refFasta | bcftools consensus -H 1 -M "N" ${uuid}.snps.vcf.gz > tmp.fa
+	#create a temporary bcf file with genotype of filtered variants set to .
+	bcftools filter -S . -e 'FILTER != "PASS"' -Ob -o tmp.bcf.gz ${uuid}.snps.vcf.gz
+	bcftools index tmp.bcf.gz
+	
+	#create consensus file with all the sites set to . above replaced as N
+	cat $refFasta | bcftools consensus -H 1 -M "N" tmp.bcf.gz > tmp.fa
+	
+	#set all the sites with zero coverage to be -
 	samtools faidx tmp.fa 
 	cat tmp.fa | bcftools consensus -H 1 -M "-" ${uuid}.zero_coverage.vcf.gz > ${uuid}.fa
 	"""
