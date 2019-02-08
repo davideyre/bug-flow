@@ -283,7 +283,8 @@ process normalise_snps {
     publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/freebayes", mode: 'copy'
 	
 	
-    """
+    """   
+    #bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf raw_var.vcf
     vcfallelicprimitives -kg raw_var.vcf | bcftools view -Ou -o ${uuid}.bcf
     """
 
@@ -327,6 +328,8 @@ process filterSnps {
     	bcftools filter -S . -s OneEachWay -e 'SAF == 0 || SAR ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus90 -e '((SAF+SAR)/(SRF+SRR+SAF+SAR))<=0.9' -m+ -Ou | \
+    	bcftools filter -s SnpGap --SnpGap 7 -m+ -Ou | \
+    	bcftools filter -S . -s SnpGap -e 'FILTER ~ "SnpGap"' -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(SAF+SAR)<=5' -m+ -Oz -o ${uuid}.all.vcf.gz
     
     
