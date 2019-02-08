@@ -283,8 +283,7 @@ process normalise_snps {
     publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/freebayes", mode: 'copy'
 	
 	
-    """   
-    #bcftools norm -f $refFasta -m +any -Ou -o ${uuid}.bcf raw_var.vcf
+    """
     vcfallelicprimitives -kg raw_var.vcf | bcftools view -Ou -o ${uuid}.bcf
     """
 
@@ -306,16 +305,12 @@ process filterSnps {
     tag "${getShortId(uuid)}"
 	publishDir "$outputPath/$uuid/bwa_mapped/${refFasta.baseName}/freebayes", mode: 'copy'
 	
-	//use bcftools to filter normalised bcf file of variants from pileup and call
-	//use one line for each filter condition and label
-	//create index at end for random access and consensus calling
-	
 	//filters
 		// quality >30
 		// one read in each direction to support variant
 		// not in a repeat region
 		// consensus of >90% reads to support alternative allele
-		// mask SNPs within 7 bp of INDEL
+		// mask SNPs within 7 bp of INDEL - this filter required with freebayes, but not mpileup
 		// require high quality depth of 5 for call
 	
     """
