@@ -225,7 +225,7 @@ process bwa {
     
     tag "${getShortId(uuid)}"
 
-	//don't add read group header here results in poorly formatted header
+	//do not add read group header here results in poorly formatted header
     """
     bwa mem -t ${task.cpus} \
     		$refFasta \
@@ -371,7 +371,8 @@ process gatk_filterSnps {
     	bcftools filter -S . -s OneEachWay -e 'SB[0:2] == 0 || SB[0:3] ==0' -m+ -Ou | \
     	bcftools filter -S . -s RptRegion -e 'RPT=1' -m+ -Ou | \
     	bcftools filter -S . -s Consensus75 -e '((SB[0:2]+SB[0:3])/(SB[0:0]+SB[0:1]))<3' -m+ -Ou | \
-    	bcftools filter -S . -s SnpGap --SnpGap 3 -m+ -Ou | \
+    	bcftools filter -s SnpGap --SnpGap 7 -m+ -Ou | \
+    	bcftools filter -S . -s SnpGap -e 'FILTER ~ "SnpGap"' -m+ -Ou | \
     	bcftools filter -S . -s HQDepth5 -e '(SB[0:2]+SB[0:3])<=5' -m+ -Oz -o ${uuid}.filtered.vcf.gz
     bcftools index ${uuid}.filtered.vcf.gz
     
